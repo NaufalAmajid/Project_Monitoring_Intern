@@ -100,8 +100,3 @@
     </div>
 </div>
 <!-- [ Main Content ] end -->
-<?php
-echo "<pre>";
-print_r($mymenu);
-echo "</pre>";
-?>

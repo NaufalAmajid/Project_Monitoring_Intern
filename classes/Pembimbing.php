@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pembimbing = new Pembimbing();
 
     if ($_POST['action'] == 'tambah') {
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $password = md5($_POST['password']);
         $dataUser = [
             "username" => $_POST['username'],
             "email" => $_POST['email'],

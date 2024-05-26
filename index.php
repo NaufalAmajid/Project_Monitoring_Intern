@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (isset($_SESSION['is_login'])) {
+	header('Location: dashboard.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,28 +46,18 @@
 					<div class="col-md-6">
 						<div class="card-body">
 							<img src="assets/images/logo-dark.svg" alt="" class="img-fluid mb-4">
-							<h4 class="mb-3 f-w-400">Login into your account</h4>
-							<div class="form-group mb-2">
-								<label class="form-label">Enter Email</label>
-								<input type="email" class="form-control" placeholder="name@sitename.com">
-							</div>
-							<div class="form-group mb-3">
-								<label class="form-label">Enter Password</label>
-								<input type="password" class="form-control" placeholder="Allow only max 14 character">
-							</div>
-							<div class="saprator"><span>OR</span></div>
-							<button class="btn btn-facebook mb-2 me-2"><i class="fab fa-facebook-f"></i>facebook</button>
-							<button class="btn btn-googleplus mb-2 me-2"><i class="fab fa-google-plus-g"></i>Google</button>
-							<button class="btn btn-twitter mb-2 me-2"><i class="fab fa-twitter"></i>Twitter</button>
-							<div class="form-group text-start mt-2">
-								<div class="checkbox checkbox-primary d-inline">
-									<input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
-									<label for="checkbox-fill-a1" class="cr">Save credentials</label>
+							<h4 class="mb-3 f-w-400">Silahkan Login Disini!</h4>
+							<form id="form-login">
+								<div class="form-group mb-4">
+									<label class="form-label">Email / Username</label>
+									<input type="text" class="form-control" name="email_username" placeholder="masukkan email ..." autocomplete="off" autofocus>
 								</div>
-							</div>
-							<button class="btn btn-primary mb-4" onclick="Login()">Login</button>
-							<p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html" class="f-w-400">Reset</a></p>
-							<p class="mb-0 text-muted">Don’t have an account? <a href="auth-signup.html" class="f-w-400">Signup</a></p>
+								<div class="form-group mb-4">
+									<label class="form-label">Password</label>
+									<input type="password" class="form-control" name="password" placeholder="masukkan password ...">
+								</div>
+								<button class="btn btn-primary col-lg-12 mb-4">Login</button>
+							</form>
 						</div>
 					</div>
 					<div class="col-md-6 d-none d-md-block">
@@ -122,21 +118,54 @@
 	<!-- Required Js -->
 	<script src="assets/js/vendor-all.min.js"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-
-	<div class="footer-fab">
-		<div class="b-bg">
-			<i class="fas fa-question"></i>
-		</div>
-		<div class="fab-hover">
-			<ul class="list-unstyled">
-				<li><a href="../doc/index-bc-package.html" target="_blank" data-text="UI Kit" class="btn btn-icon btn-rounded btn-info m-0"><i class="feather icon-layers"></i></a></li>
-				<li><a href="../doc/index.html" target="_blank" data-text="Document" class="btn btn-icon btn-rounded btn-primary m-0"><i class="feather icon feather icon-book"></i></a></li>
-			</ul>
-		</div>
-	</div>
-
-
+	<script src="assets/plugins/sweetalert/js/sweetalert.min.js"></script>
+	<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#form-login').submit(function(e) {
+				e.preventDefault();
+				let data = $(this).serialize();
+				data = data + '&action=login';
+				$.ajax({
+					type: 'POST',
+					url: 'classes/Login.php',
+					data: data,
+					success: function(response) {
+						if (response == 'success') {
+							swal({
+								title: "Sukses!",
+								text: "Login Berhasil",
+								icon: "success",
+								buttons: false,
+								dangerMode: false,
+								showConfirmButton: false,
+								showCancelButton: false,
+								showCloseButton: false,
+								timer: 2000
+							}).then(() => {
+								window.location.href = 'dashboard.php';
+							});
+						} else {
+							swal({
+								title: "Gagal!",
+								text: "Login Gagal",
+								icon: "error",
+								buttons: false,
+								dangerMode: false,
+								showConfirmButton: false,
+								showCancelButton: false,
+								showCloseButton: false,
+								timer: 2000
+							}).then(() => {
+								window.location.href = 'index.php';
+							});
+						}
+					}
+				});
+			});
+		});
+	</script>
 </body>
 
 </html>

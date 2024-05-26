@@ -46,7 +46,7 @@ $siswa = $siswa->getAllSiswa();
                             <th>Jurusan</th>
                             <th>Nama Pembimbing</th>
                             <th>Tempat PKL</th>
-                            <th></th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,8 +66,8 @@ $siswa = $siswa->getAllSiswa();
                                 <td><?= $sis['nama_pembimbing'] ?></td>
                                 <td><?= $sis['tempat_pkl'] ?></td>
                                 <td>
-                                    <button type="button" class="btn btn-icon btn-rounded btn-outline-primary" onclick="editPembimbing('<?= $sis['siswa_id'] ?>')"><i class="feather icon-edit"></i></button>
-                                    <button type="button" class="btn btn-icon btn-rounded btn-outline-danger" onclick="removePembimbing('<?= $sis['user_id'] ?>')"><i class="feather icon-trash"></i></button>
+                                    <button type="button" class="btn btn-icon btn-rounded btn-outline-primary" onclick="editSiswa('<?= $sis['siswa_id'] ?>')"><i class="feather icon-edit"></i></button>
+                                    <button type="button" class="btn btn-icon btn-rounded btn-outline-danger" onclick="removeSiswa('<?= $sis['user_id'] ?>')"><i class="feather icon-trash"></i></button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -84,7 +84,7 @@ $siswa = $siswa->getAllSiswa();
                             <th>Jurusan</th>
                             <th>Nama Pembimbing</th>
                             <th>Tempat PKL</th>
-                            <th></th>
+                            <th>#</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -121,50 +121,51 @@ $siswa = $siswa->getAllSiswa();
                         columns: ':not(:last-child)',
                     }
                 }
-            ]
+            ],
+            responsive: true
         });
     });
 
-    function tambahPembimbing() {
+    function tambahSiswa() {
         $.ajax({
-            url: 'content/modal-detail-pembimbing.php',
+            url: 'content/modal-detail-siswa.php',
             type: 'post',
             data: {
                 action: 'tambah',
-                pembimbing_id: 0
+                siswa_id: 0
             },
             success: function(response) {
-                $('#modal-pembimbing').html(response);
-                $('#modal-pembimbing').modal('show');
+                $('#modal-siswa').html(response);
+                $('#modal-siswa').modal('show');
             }
         });
     }
 
-    function editPembimbing(pembimbing_id) {
+    function editSiswa(siswa_id) {
         $.ajax({
-            url: 'content/modal-detail-pembimbing.php',
+            url: 'content/modal-detail-siswa.php',
             type: 'post',
             data: {
                 action: 'edit',
-                pembimbing_id: pembimbing_id
+                siswa_id: siswa_id
             },
             success: function(response) {
-                $('#modal-pembimbing').html(response);
-                $('#modal-pembimbing').modal('show');
+                $('#modal-siswa').html(response);
+                $('#modal-siswa').modal('show');
             }
         });
     }
 
-    function savePembimbing() {
-        let form = $('#form-pembimbing').serializeArray();
+    function saveSiswa() {
+        let form = $('#form-siswa').serializeArray();
         let data = {};
         form.map(item => {
             data[item.name] = item.value;
         });
-        if (data['jenis_kelamin'] == '') {
+        if (data['jenis_kelamin'] == '' || data['kelas_id'] == '') {
             notifier.show(
                 'Perhatian!',
-                'Jenis kelamin harus diisi.',
+                'Tidak boleh ada field yang kosong.',
                 'warning',
                 'assets/images/notification/medium_priority-48.png',
                 3000
@@ -173,14 +174,14 @@ $siswa = $siswa->getAllSiswa();
         }
 
         $.ajax({
-            url: 'classes/Pembimbing.php',
+            url: 'classes/Siswa.php',
             type: 'post',
             data: data,
             success: function(response) {
                 if (response == 'success') {
                     notifier.show(
                         'Sukses!',
-                        'Pembimbing berhasil ditambahkan.',
+                        'Siswa berhasil ditambahkan.',
                         'success',
                         'assets/images/notification/ok-48.png',
                         3000
@@ -191,7 +192,7 @@ $siswa = $siswa->getAllSiswa();
                 } else {
                     notifier.show(
                         'Gagal!',
-                        'Pembimbing gagal ditambahkan.',
+                        'Siswa gagal ditambahkan.',
                         'danger',
                         'assets/images/notification/high_priority-48.png',
                         3000
@@ -201,10 +202,10 @@ $siswa = $siswa->getAllSiswa();
         });
     }
 
-    function removePembimbing(user_id) {
+    function removeSiswa(user_id) {
         swal({
                 title: "Apakah anda yakin?",
-                text: "pembimbing yang sudah dihapus tidak bisa login kembali!",
+                text: "siswa yang sudah dihapus tidak bisa login kembali! \n namun data siswa tidak akan terhapus dari database.",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -212,7 +213,7 @@ $siswa = $siswa->getAllSiswa();
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: 'classes/Pembimbing.php',
+                        url: 'classes/Siswa.php',
                         type: 'post',
                         data: {
                             action: 'delete',
@@ -222,7 +223,7 @@ $siswa = $siswa->getAllSiswa();
                             if (response == 'success') {
                                 notifier.show(
                                     'Sukses!',
-                                    'Data pembimbing berhasil dihapus.',
+                                    'Data Siswa berhasil dihapus.',
                                     'success',
                                     'assets/images/notification/ok-48.png',
                                     3000
@@ -233,7 +234,7 @@ $siswa = $siswa->getAllSiswa();
                             } else {
                                 notifier.show(
                                     'Gagal!',
-                                    'Data pembimbing gagal dihapus.',
+                                    'Data Siswa gagal dihapus.',
                                     'danger',
                                     'assets/images/notification/high_priority-48.png',
                                     3000
@@ -242,7 +243,7 @@ $siswa = $siswa->getAllSiswa();
                         }
                     });
                 } else {
-                    swal("Data pembimbing tidak jadi dihapus!", {
+                    swal("Data Siswa tidak jadi dihapus!", {
                         icon: "info",
                     });
                 }
