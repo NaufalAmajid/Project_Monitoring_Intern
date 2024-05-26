@@ -235,47 +235,72 @@ require_once 'classes/Menu.php';
             }
         });
 
-        function Logout() {
-            swal({
-                title: "Apakah anda yakin?",
-                text: "Anda akan keluar dari sistem",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willLogout) => {
-                if (willLogout) {
-                    $.ajax({
-                        url: 'classes/Login.php',
-                        type: 'post',
-                        data: {
-                            action: 'logout'
-                        },
-                        success: function(response) {
-                            if (response == 'success') {
-                                swal("Berhasil!", "Anda berhasil keluar", "info", {
-                                    button: false,
-                                    timer: 2000
-                                }).then(() => {
-                                    window.location.href = 'index.php';
-                                });
-                            } else {
-                                swal("Gagal!", "Anda gagal keluar", "error", {
-                                    button: false,
-                                    timer: 2000
-                                });
-                            }
+        function Logout(changePassword = false) {
+            if (changePassword) {
+                $.ajax({
+                    url: 'classes/Login.php',
+                    type: 'post',
+                    data: {
+                        action: 'logout'
+                    },
+                    success: function(response) {
+                        if (response == 'success') {
+                            swal("Berhasil!", "Anda berhasil mengganti password, silahkan login kembali", "info", {
+                                button: false,
+                                timer: 2000
+                            }).then(() => {
+                                window.location.href = 'index.php';
+                            });
+                        } else {
+                            swal("Gagal!", "Anda gagal keluar", "error", {
+                                button: false,
+                                timer: 2000
+                            });
                         }
-                    });
-                } else {
-                    swal("Anda tidak jadi keluar", {
-                        icon: "info",
-                        button: false,
-                        timer: 2000
-                    }).then(() => {
-                        location.reload();
-                    });
-                }
-            });
+                    }
+                });
+            } else {
+                swal({
+                    title: "Apakah anda yakin?",
+                    text: "Anda akan keluar dari sistem",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willLogout) => {
+                    if (willLogout) {
+                        $.ajax({
+                            url: 'classes/Login.php',
+                            type: 'post',
+                            data: {
+                                action: 'logout'
+                            },
+                            success: function(response) {
+                                if (response == 'success') {
+                                    swal("Berhasil!", "Anda berhasil keluar", "info", {
+                                        button: false,
+                                        timer: 2000
+                                    }).then(() => {
+                                        window.location.href = 'index.php';
+                                    });
+                                } else {
+                                    swal("Gagal!", "Anda gagal keluar", "error", {
+                                        button: false,
+                                        timer: 2000
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        swal("Anda tidak jadi keluar", {
+                            icon: "info",
+                            button: false,
+                            timer: 2000
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
+                });
+            }
         }
     </script>
 

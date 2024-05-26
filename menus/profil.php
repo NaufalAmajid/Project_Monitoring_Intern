@@ -70,68 +70,70 @@ require_once 'classes/User.php';
                 </div>
             </form>
             <hr>
-            <h5 class="mb-3">Detail <?= ucwords($_SESSION['nama_status_user']) ?></h5>
-            <?php if ($_SESSION['status_user_id'] == 2) : ?>
-            <?php else : ?>
-                <?php
-                $siswa = new User();
-                $siswa = $siswa->getSiswaById($_SESSION['the_id']);
-                ?>
-                <div class="row">
-                    <div class="col-md-4 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="nama_lengkap">Nama Lengkap</label>
-                            <input type="text" name="nama_lengkap" class="form-control" id="nama_lengkap" value="<?= $siswa['nama_siswa'] ?>" readonly disabled>
+            <?php if ($_SESSION['status_user_id'] != 1) : ?>
+                <h5 class="mb-3">Detail <?= ucwords($_SESSION['nama_status_user']) ?></h5>
+                <?php if ($_SESSION['status_user_id'] == 2) : ?>
+                <?php else : ?>
+                    <?php
+                    $siswa = new User();
+                    $siswa = $siswa->getSiswaById($_SESSION['the_id']);
+                    ?>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="nama_lengkap">Nama Lengkap</label>
+                                <input type="text" name="nama_lengkap" class="form-control" id="nama_lengkap" value="<?= $siswa['nama_siswa'] ?>" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="nis">NIS</label>
+                                <input type="text" name="nis" class="form-control" value="<?= $siswa['nis'] ?>" id="nis" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="nis">No</label>
+                                <input type="text" name="no" class="form-control" id="no" value="<?= $siswa['no'] ?>" readonly disabled>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="nis">NIS</label>
-                            <input type="text" name="nis" class="form-control" value="<?= $siswa['nis'] ?>" id="nis" readonly disabled>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
+                                <input type="text" name="jenis_kelamin" class="form-control" value="<?= $siswa['jenis_kelamin'] ?>" id="jenis_kelamin" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="kelas">Kelas</label>
+                                <input type="text" name="kelas" class="form-control" id="kelas" value="<?= $siswa['nama_kelas'] ?>" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="jurusan">Jurusan</label>
+                                <input type="text" name="jurusan" class="form-control" id="jurusan" value="<?= $siswa['nama_jurusan'] ?>" readonly disabled>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="nis">No</label>
-                            <input type="text" name="no" class="form-control" id="no" value="<?= $siswa['no'] ?>" readonly disabled>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="tempat_pkl">Tempat PKL</label>
+                                <input type="text" name="tempat_pkl" class="form-control" id="tempat_pkl" value="<?= $siswa['tempat_pkl'] ?>" readonly disabled>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
-                            <input type="text" name="jenis_kelamin" class="form-control" value="<?= $siswa['jenis_kelamin'] ?>" id="jenis_kelamin" readonly disabled>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="kelas">Kelas</label>
-                            <input type="text" name="kelas" class="form-control" id="kelas" value="<?= $siswa['nama_kelas'] ?>" readonly disabled>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="jurusan">Jurusan</label>
-                            <input type="text" name="jurusan" class="form-control" id="jurusan" value="<?= $siswa['nama_jurusan'] ?>" readonly disabled>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="tempat_pkl">Tempat PKL</label>
-                            <input type="text" name="tempat_pkl" class="form-control" id="tempat_pkl" value="<?= $siswa['tempat_pkl'] ?>" readonly disabled>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12 mb-3">
-                        <div class="mb-3">
-                            <label class="form-label" for="nama_pembimbing">Pembimbing</label>
-                            <input type="text" name="nama_pembimbing" class="form-control" id="nama_pembimbing" value="<?= $siswa['nama_pembimbing'] ?>" readonly disabled>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="nama_pembimbing">Pembimbing</label>
+                                <input type="text" name="nama_pembimbing" class="form-control" id="nama_pembimbing" value="<?= $siswa['nama_pembimbing'] ?>" readonly disabled>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
-                </div>
+            <?php endif; ?>
         </div>
     </div>
     <script>
@@ -185,36 +187,42 @@ require_once 'classes/User.php';
                 $('#status_konfirmPassword').html('Password tidak sama');
                 $('#status_konfirmPassword').addClass('text-danger');
                 $('#btn-edit-user').attr('disabled', 'disabled');
+                return;
             } else {
                 $('#status_konfirmPassword').html('');
                 $('#btn-edit-user').removeAttr('disabled');
-                $.ajax({
-                    url: 'classes/User.php',
-                    type: 'POST',
-                    data: send,
-                    success: function(data) {
-                        if (data == 'success') {
-                            notifier.show(
-                                'Sukses!',
-                                'Password berhasil diubah.',
-                                'success',
-                                'assets/images/notification/ok-48.png',
-                                3000
-                            );
-                            setTimeout(() => {
-                                location.reload();
-                            }, 3000);
-                        } else {
-                            notifier.show(
-                                'Gagal!',
-                                'Password gagal diubah.',
-                                'danger',
-                                'assets/images/notification/high_priority-48.png',
-                                3000
-                            );
-                        }
-                    }
-                });
             }
+            $.ajax({
+                url: 'classes/User.php',
+                type: 'POST',
+                data: send,
+                success: function(data) {
+                    if (data == 'success') {
+                        notifier.show(
+                            'Sukses!',
+                            'Data User berhasil diubah.',
+                            'success',
+                            'assets/images/notification/ok-48.png',
+                            3000
+                        );
+                        setTimeout(() => {
+                            if ($('#password1').val() != '' || $('#password2').val() != '') {
+                                Logout(changePassword = true)
+                            } else {
+                                location.reload();
+                            }
+                        }, 3000);
+                    } else {
+                        notifier.show(
+                            'Gagal!',
+                            'Data User gagal diubah.',
+                            'danger',
+                            'assets/images/notification/high_priority-48.png',
+                            3000
+                        );
+                        console.log(send);
+                    }
+                }
+            });
         }
     </script>

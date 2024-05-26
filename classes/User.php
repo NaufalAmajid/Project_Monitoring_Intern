@@ -83,16 +83,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($_POST['action'] == 'changePassword') {
-        $dataEdit = [
-            'username' => $_POST['username'],
-            'email' => $_POST['email'],
-            'password' => md5($_POST['password1']),
-        ];
+        if (isset($_POST['password1']) && isset($_POST['password2'])) {
+            $dataEdit = [
+                'username' => $_POST['username'],
+                'email' => $_POST['email'],
+                'password' => md5($_POST['password1']),
+            ];
+        } else {
+            $dataEdit = [
+                'username' => $_POST['username'],
+                'email' => $_POST['email'],
+            ];
+        }
 
         $where = ['user_id' => $_POST['user_id']];
 
         $result = $user->changePassword($dataEdit, $where);
-        if ($result) {
+        if ($result >= 0) {
             echo 'success';
         } else {
             echo 'error';
