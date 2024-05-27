@@ -1,5 +1,6 @@
 <?php
 require_once 'classes/User.php';
+$user = new User();
 ?>
 <!-- [ breadcrumb ] start -->
 <div class="page-header">
@@ -73,10 +74,44 @@ require_once 'classes/User.php';
             <?php if ($_SESSION['status_user_id'] != 1) : ?>
                 <h5 class="mb-3">Detail <?= ucwords($_SESSION['nama_status_user']) ?></h5>
                 <?php if ($_SESSION['status_user_id'] == 2) : ?>
+                    <?php
+                    $pembimbing = $user->getPembimbingById($_SESSION['the_id']);
+                    ?>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="nama_lengkap">Nama Lengkap</label>
+                                <input type="text" name="nama_lengkap" class="form-control" id="nama_lengkap" value="<?= $pembimbing['nama_pembimbing'] ?>" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="nis">No</label>
+                                <input type="text" name="no" class="form-control" id="no" value="<?= $pembimbing['no'] ?>" readonly disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
+                                <input type="text" name="jenis_kelamin" class="form-control" id="jenis_kelamin" value="<?= $pembimbing['no'] ?>" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="kelas">Kelas</label>
+                                <select name="kelas" multiple id="kelas" class="form-select" disabled>
+                                    <?php foreach ($pembimbing['kelas'] as $kelas) : ?>
+                                        <option value="<?= $kelas['nama_kelas'] ?>"><?= $kelas['nama_kelas'] ?> - <?= $kelas['nama_jurusan'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 <?php else : ?>
                     <?php
-                    $siswa = new User();
-                    $siswa = $siswa->getSiswaById($_SESSION['the_id']);
+                    $siswa = $user->getSiswaById($_SESSION['the_id']);
                     ?>
                     <div class="row">
                         <div class="col-md-4 col-sm-12 mb-3">

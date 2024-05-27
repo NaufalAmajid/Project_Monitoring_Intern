@@ -5,9 +5,14 @@ if (!isset($_SESSION['is_login'])) {
     exit;
 }
 
+date_default_timezone_set('Asia/Jakarta');
+
 require_once 'config/database.php';
+require_once 'config/functions.php';
 require_once 'classes/DB.php';
 require_once 'classes/Menu.php';
+
+$func = new Functions();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,6 +85,13 @@ require_once 'classes/Menu.php';
             -moz-appearance: none;
             text-indent: 1px;
             text-overflow: '';
+        }
+
+        #image-placeholder {
+            cursor: pointer;
+            width: 100%;
+            height: auto;
+            display: block;
         }
     </style>
 </head>

@@ -63,6 +63,40 @@ class User
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getPembimbingById($pembimbing_id)
+    {
+        $query = "select
+                    dp.no,
+                    dp.pembimbing_id,
+                    dp.nama_lengkap as nama_pembimbing,
+                    dp.jenis_kelamin,
+                    kel.nama_kelas,
+                    jur.nama_jurusan
+                from
+                    detail_pembimbing dp
+                left join kelas kel on
+                    dp.pembimbing_id = kel.pembimbing_id
+                left join jurusan jur on
+                    kel.jurusan_id = jur.jurusan_id
+                where
+                    dp.pembimbing_id = $pembimbing_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $pembimbing = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $pembimbing['nama_pembimbing'] = $row['nama_pembimbing'];
+            $pembimbing['jenis_kelamin'] = $row['jenis_kelamin'];
+            $pembimbing['no'] = $row['no'];
+            $pembimbing['kelas'][] = [
+                'nama_kelas' => $row['nama_kelas'],
+                'nama_jurusan' => $row['nama_jurusan']
+            ];
+        }
+
+        return $pembimbing;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -97,6 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $where = ['user_id' => $_POST['user_id']];
+        session_start();
+        $_SESSION['username'] = $_POST['username'];
+        $_SESSION['email'] = $_POST['email'];
 
         $result = $user->changePassword($dataEdit, $where);
         if ($result >= 0) {
