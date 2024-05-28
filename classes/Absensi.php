@@ -20,6 +20,22 @@ class Absensi
         $db = DB::getInstance();
         return $db->update('absensi', $data, $where);
     }
+
+    public function getAbsensiTodayBySiswaId($siswa_id)
+    {
+        $date  = date('Y-m-d');
+        $query = "select
+                        *
+                    from
+                        absensi abs
+                    where
+                        abs.hari = '$date'
+                        and abs.siswa_id = $siswa_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -45,15 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $foto_name_new = $_SESSION['the_id'] . '_' . date('YmdHis') . '-' . $_POST['status'] . '.' . $foto_actual_ext;
                     $foto_destination = '../lampiran/absensi/' . $foto_name_new;
                 } else {
-                    echo json_encode(['status' => 'error', 'message' => 'Your file is too big!']);
+                    echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Ukuran file terlalu besar! Max 1MB!']);
                     exit();
                 }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'There was an error uploading your file!']);
+                echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Terjadi kesalahan saat upload file!']);
                 exit();
             }
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'You cannot upload files of this type!']);
+            echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Format file tidak didukung! Hanya JPG, JPEG, PNG!']);
             exit();
         }
 
@@ -76,9 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($save > 0) {
             move_uploaded_file($foto_tmp, $foto_destination);
-            echo json_encode(['status' => 'success', 'data' => $dataInsert]);
+            echo json_encode(['status' => 'success', 'title' => 'Berhasil!', 'message' => 'Berhasil absen!']);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to save data!']);
+            echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Gagal absen!']);
         }
     }
 }

@@ -15,6 +15,15 @@
     </div>
 </div>
 <!-- [ breadcrumb ] end -->
+<?php
+require_once 'classes/Absensi.php';
+
+$absensi = new Absensi();
+$absensi = $absensi->getAbsensiTodayBySiswaId($_SESSION['the_id']);
+// echo '<pre>';
+// print_r($absensi);
+// echo '</pre>';
+?>
 <div class="row">
     <div class="col-sm-12">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -44,12 +53,40 @@
                                             <input type="file" class="form-control d-none" onchange="displayImage(this)" id="foto" name="foto">
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary col-md-12" type="button" onclick="absensiSiswa('masuk')">Masuk</a>
+                                    <?php if ($absensi) : ?>
+                                        <button class="btn btn-warning col-md-12" id="btn-absensi" disabled type="button" onclick="absensiSiswa('keluar')">Keluar</button>
+                                    <?php else : ?>
+                                        <button class="btn btn-primary col-md-12" id="btn-absensi" disabled type="button" onclick="absensiSiswa('masuk')">Masuk</button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php if ($absensi) : ?>
+                    <div class="row mt-4 justify-content-center">
+                        <div class="col-md-8">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><span class="mb-4"><?= $func->dateIndonesia($absensi['hari']) ?></span></th>
+                                            <th>
+                                                <div><?= $absensi['masuk'] ?></div>
+                                                <div style="font-size: 10px;"><a href=""><i class="feather icon-grid"></i> foto</a>
+                                            </th>
+                                            <th>
+                                                <div><?= $absensi['keluar'] ?></div>
+                                                <div style="font-size: 10px;"><a href=""><i class="feather icon-grid"></i> foto</a>
+                                            </th>
+                                            <th><button class="btn btn-sm btn-info" type="button"><i class="feather icon-back"></i></button></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <!-- [ user card1 ] end -->
             <!-- varient [ 2 ][ cover shape ] card Start -->
@@ -85,6 +122,7 @@
                 document.querySelector('#image-placeholder').setAttribute('src', e.target.result);
             }
             reader.readAsDataURL(e.files[0]);
+            $('#btn-absensi').prop('disabled', false);
         }
     }
     document.querySelector('#foto').addEventListener('change', function() {
@@ -105,7 +143,16 @@
             cache: false,
             processData: false,
             success: function(response) {
-                console.log(response);
+                let res = JSON.parse(response);
+                swal({
+                    title: res.title,
+                    text: res.message,
+                    icon: res.status,
+                    button: false,
+                    timer: 2000
+                }).then(() => {
+                    location.reload();
+                })
             }
         });
     }
