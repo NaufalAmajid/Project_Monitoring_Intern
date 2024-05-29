@@ -42,6 +42,8 @@ $func = new Functions();
     <link rel="stylesheet" href="assets/plugins/notification/css/notification.min.css">
     <!-- animation css -->
     <link rel="stylesheet" href="assets/plugins/animation/css/animate.min.css">
+
+    <!-- notification css -->
     <link rel="stylesheet" href="assets/css/plugins/notifier.css">
 
     <!-- data tables css -->
@@ -50,6 +52,8 @@ $func = new Functions();
     <!-- modal-window-effects css  -->
     <link rel="stylesheet" href="assets/plugins/modal-window-effects/css/md-modal.css">
 
+    <!-- daterangepicker css -->
+    <link rel="stylesheet" href="assets/css/plugins/daterangepicker.css">
 
     <!-- vendor css -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -239,6 +243,9 @@ $func = new Functions();
     <script src="assets/plugins/modal-window-effects/js/classie.js"></script>
     <script src="assets/plugins/modal-window-effects/js/modalEffects.js"></script>
 
+    <!-- datepicker -->
+    <script src="assets/js/plugins/moment.min.js"></script>
+    <script src="assets/js/plugins/daterangepicker.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -246,6 +253,15 @@ $func = new Functions();
                 $('#btn-mydashboard').click();
             }
         });
+
+        $('#search-absensi-siswa').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#search-absensi-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
+        });
+
 
         function Logout(changePassword = false) {
             if (changePassword) {

@@ -50,7 +50,15 @@ class DB
 
         $setWhere = '';
         foreach ($where as $key => $value) {
-            $setWhere .= "$key=:$key, ";
+            if (count($where) > 1) {
+                if (next($where)) {
+                    $setWhere .= "$key=:$key AND ";
+                } else {
+                    $setWhere .= "$key=:$key";
+                }
+            } else {
+                $setWhere .= "$key=:$key";
+            }
         }
         $setWhere = rtrim($setWhere, ", ");
 

@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Jakarta');
 class Absensi
 {
     private $conn;
@@ -21,6 +21,12 @@ class Absensi
         return $db->update('absensi', $data, $where);
     }
 
+    public function deleteAbsensi($where)
+    {
+        $db = DB::getInstance();
+        return $db->delete('absensi', $where);
+    }
+
     public function getAbsensiTodayBySiswaId($siswa_id)
     {
         $date  = date('Y-m-d');
@@ -35,6 +41,27 @@ class Absensi
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllAbsensiBySiswaId($siswa_id, $tgl1, $tgl2)
+    {
+        $query = "select
+                        *
+                    from
+                        absensi abs
+                    where
+                        abs.hari between '$tgl1' and '$tgl2'
+                        and abs.siswa_id = $siswa_id
+                        order by abs.hari desc";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $data = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
 }
 
@@ -95,6 +122,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo json_encode(['status' => 'success', 'title' => 'Berhasil!', 'message' => 'Berhasil absen!']);
         } else {
             echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Gagal absen!']);
+        }
+    }
+
+    if ($_POST['action'] == 'repeatAbsen') {
+        $absensi_id = $_POST['absensi_id'];
+        $lampiran_masuk = $_POST['lampiran_masuk'];
+        $lokasi_lampiran = '../lampiran/absensi/' . $lampiran_masuk;
+
+        $deleteAbsensi = $absensi->deleteAbsensi('absensi_id = ' . $absensi_id);
+        if ($deleteAbsensi) {
+            unlink($lokasi_lampiran);
+            echo "success";
+        } else {
+            echo "failed";
         }
     }
 }

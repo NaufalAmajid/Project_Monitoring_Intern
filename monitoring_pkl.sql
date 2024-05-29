@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 01:58 PM
+-- Generation Time: May 29, 2024 at 03:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,21 +29,22 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `absensi` (
   `absensi_id` int(11) NOT NULL,
-  `hari` date NOT NULL DEFAULT current_timestamp(),
-  `masuk` time NOT NULL DEFAULT current_timestamp(),
-  `keluar` time NOT NULL DEFAULT current_timestamp(),
-  `lampiran` text NOT NULL,
+  `hari` date NOT NULL,
+  `masuk` time NOT NULL,
+  `keluar` time NOT NULL,
+  `lampiran_masuk` text NOT NULL,
   `is_verified` tinyint(1) NOT NULL DEFAULT 0,
-  `siswa_id` int(11) NOT NULL
+  `siswa_id` int(11) NOT NULL,
+  `lampiran_keluar` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `absensi`
 --
 
-INSERT INTO `absensi` (`absensi_id`, `hari`, `masuk`, `keluar`, `lampiran`, `is_verified`, `siswa_id`) VALUES
-(1, '2024-05-20', '22:52:37', '22:52:37', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 0, 2),
-(2, '2024-05-20', '00:00:00', '00:00:00', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 0, 2);
+INSERT INTO `absensi` (`absensi_id`, `hari`, `masuk`, `keluar`, `lampiran_masuk`, `is_verified`, `siswa_id`, `lampiran_keluar`) VALUES
+(1, '2024-05-27', '19:52:55', '20:24:56', '3_20240528195255-masuk.png', 1, 3, '3_20240528202456-keluar.jpeg'),
+(2, '2024-05-28', '20:25:49', '20:55:12', '3_20240528202549-masuk.jpeg', 0, 3, '3_20240528205512-keluar.jpeg');
 
 -- --------------------------------------------------------
 
@@ -64,9 +65,8 @@ CREATE TABLE `detail_pembimbing` (
 --
 
 INSERT INTO `detail_pembimbing` (`pembimbing_id`, `no`, `nama_lengkap`, `jenis_kelamin`, `user_id`) VALUES
-(1, '628123923413', 'Demon One Valorant Player', 'Laki-laki', 2),
-(2, '6287230012332', 'X-Drake Marine', 'Perempuan', 6),
-(5, '08734213123', 'nanzy', 'Laki-laki', 10);
+(1, '628123923413', 'Demon One Valorant Player', 'Perempuan', 2),
+(2, '6287230012332', 'X-Drake Marine', 'Perempuan', 6);
 
 -- --------------------------------------------------------
 
@@ -91,8 +91,9 @@ CREATE TABLE `detail_siswa` (
 
 INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`) VALUES
 (1, 'Forsaken Player Valorant', '62812443523', '000123432', 'Laki-laki', 3, 1, 'shanghai'),
-(2, 'Aspas Valorant', '6287230323245', '000435234', 'Laki-laki', 4, 1, 'Solo'),
-(3, 'Kanroji Slayer', '62845623434', '000432123', 'Perempuan', 5, 2, 'Sukoharjo');
+(2, 'Aspas Valorant', '6287230323245', '00043523434', 'Laki-laki', 4, 1, 'Solo'),
+(3, 'Kanroji Slayer', '62845623434', '000432123', 'Perempuan', 5, 2, 'Sukoharjo'),
+(5, 'D\'Art Nanzy', '08734213123', '00043523434', 'Laki-laki', 12, 7, 'Gayam');
 
 -- --------------------------------------------------------
 
@@ -112,7 +113,6 @@ CREATE TABLE `hak_akses_menu` (
 
 INSERT INTO `hak_akses_menu` (`id`, `menu_id`, `status_user_id`) VALUES
 (1, 'ME01', 1),
-(2, 'ME02', 1),
 (3, 'ME03', 1),
 (4, 'ME04', 2),
 (5, 'ME03', 2),
@@ -167,7 +167,7 @@ CREATE TABLE `kelas` (
 
 INSERT INTO `kelas` (`kelas_id`, `nama_kelas`, `jurusan_id`, `pembimbing_id`, `is_active`) VALUES
 (1, 'II-A', 2, 1, 1),
-(2, 'II-B', 2, 2, 1),
+(2, 'II-B', 2, 1, 1),
 (4, 'II-A', 1, 2, 0),
 (5, 'II-C', 1, 1, 0),
 (6, 'III-C', 3, 1, 1),
@@ -208,7 +208,6 @@ CREATE TABLE `menu` (
 
 INSERT INTO `menu` (`menu_id`, `nama_menu`, `direktori`) VALUES
 ('ME01', 'master', 'master'),
-('ME02', 'pengaturan', 'pengaturan'),
 ('ME03', 'profil', 'profil'),
 ('ME04', 'riwayat', 'riwayat'),
 ('ME05', 'absensi', 'absensi'),
@@ -279,13 +278,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `status_user_id`, `email`, `is_active`) VALUES
-(1, 'dragnel', '202cb962ac59075b964b07152d234b70', 1, 'dragnel@gmail.com', 1),
+(1, 'dragnel', '250cf8b51c773f3f8dc8b4be867a9a02', 1, 'dragnel@gmail.com', 1),
 (2, 'demonone', '202cb962ac59075b964b07152d234b70', 2, 'demonone@gmail.com', 1),
 (3, 'forsaken', '202cb962ac59075b964b07152d234b70', 3, 'forsaken@gmail.com', 1),
 (4, 'aspas', '202cb962ac59075b964b07152d234b70', 3, 'aspas@gmail.com', 1),
 (5, 'slayer', '202cb962ac59075b964b07152d234b70', 3, 'slayer@gmail.com', 1),
-(6, 'xdrake marine', '202cb962ac59075b964b07152d234b70', 2, 'xdrake@gmail.com', 1),
-(10, 'nanzy 123', '$2y$10$VZhJABHeAFIVgfW1P9D5Luu1HjTazWqQ/tEqIVgAupzUYtjpCTI7G', 2, 'nanzy123@gmail.com', 0);
+(6, 'xdrake', '202cb962ac59075b964b07152d234b70', 2, 'xdrakemarine@gmail.com', 1),
+(12, 'nanzy', '250cf8b51c773f3f8dc8b4be867a9a02', 3, 'nanzy@gmail.com', 1);
 
 --
 -- Indexes for dumped tables
@@ -387,7 +386,7 @@ ALTER TABLE `detail_pembimbing`
 -- AUTO_INCREMENT for table `detail_siswa`
 --
 ALTER TABLE `detail_siswa`
-  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `hak_akses_menu`
@@ -423,7 +422,7 @@ ALTER TABLE `status_user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
