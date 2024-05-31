@@ -16,10 +16,13 @@
 </div>
 <!-- [ breadcrumb ] end -->
 <?php
-require_once 'classes/Absensi.php';
+require_once 'classes/Logbook.php';
 
-$absensi = new Absensi();
-$absensi = $absensi->getAbsensiTodayBySiswaId($_SESSION['the_id']);
+$logbook = new Logbook();
+$logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
+// echo '<pre>';
+// print_r($logbook);
+// echo '</pre>';
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -34,37 +37,74 @@ $absensi = $absensi->getAbsensiTodayBySiswaId($_SESSION['the_id']);
         <div class="tab-content" id="myTabContent">
             <!-- [ user card1 ] start -->
             <div class="tab-pane fade show active" id="logbook" role="tabpanel" aria-labelledby="logbook-tab">
-                <div class="row mb-4">
-                    <div class="col-sm-7">
-                        <label class="form-label" for="catatan-kegiatan">Catatan</label>
-                        <textarea class="form-control" id="catatan-kegiatan" rows="10"></textarea>
-                    </div>
-                    <div class="col-sm-5 mt-4">
-                        <div class="form-group">
-                            <center>
-                                <img src="assets/images/image-placeholder.jpg" onclick="triggerClick(this)" alt="image-placeholder" id="image-placeholder" class="img-thumbnail">
-                            </center>
-                            <input type="file" class="form-control d-none" onchange="displayImage(this)" id="foto" name="foto">
+                <input type="hidden" name="status_logbook" id="status_logbook" value="<?= $logbook ? 'edit' : 'add' ?>">
+                <?php if ($logbook) : ?>
+                    <div class="row mb-4">
+                        <div class="col-sm-7">
+                            <label class="form-label" for="catatan-kegiatan">Catatan</label>
+                            <textarea class="form-control" aria-describedby="catatan" id="catatan-kegiatan" onchange="cekCatatan()" rows="10"><?= $logbook['catatan'] ?></textarea>
+                            <small id="catatan" class="form-text">*anda masih bisa melakukan edit untuk pengisian logbook dihari yang sama <br><span class="text-warning">Catatan : <b>waktu pengupdatean akan selalu terekam.</b></span></small>
+                        </div>
+                        <div class="col-sm-5 mt-4">
+                            <div class="form-group">
+                                <center>
+                                    <img src="lampiran/logbook/<?= $logbook['lampiran'] ?>" onclick="triggerClick(this)" alt="image-placeholder" id="image-placeholder" class="img-thumbnail">
+                                </center>
+                                <input type="file" class="form-control d-none" onchange="displayImage(this)" id="foto" name="foto">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-sm-12">
-                        <button class="btn btn-primary col-md-12" id="btn-logbook" onclick="logBook()">Simpan</button>
+                    <div class="row mb-4">
+                        <div class="col-sm-12">
+                            <button class="btn btn-secondary col-md-12" id="btn-logbook" onclick="logBook('edit', '<?= $logbook['logbook_id'] ?>', '<?= $logbook['lampiran'] ?>')">Update</button>
+                        </div>
                     </div>
-                </div>
+                <?php else : ?>
+                    <div class="row mb-4">
+                        <div class="col-sm-7">
+                            <label class="form-label" for="catatan-kegiatan">Catatan</label>
+                            <textarea class="form-control" id="catatan-kegiatan" onchange="cekCatatan()" rows="10"></textarea>
+                        </div>
+                        <div class="col-sm-5 mt-4">
+                            <div class="form-group">
+                                <center>
+                                    <img src="assets/images/image-placeholder.jpg" onclick="triggerClick(this)" alt="image-placeholder" id="image-placeholder" class="img-thumbnail">
+                                </center>
+                                <input type="file" class="form-control d-none" onchange="displayImage(this)" id="foto" name="foto">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary col-md-12" disabled id="btn-logbook" onclick="logBook('add')">Update</button>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <!-- [ user card1 ] end -->
             <!-- varient [ 2 ][ cover shape ] card Start -->
             <div class="tab-pane fade" id="riw_logbook" role="tabpanel" aria-labelledby="riw_logbook-tab">
-                <h1>Riwayat Logbook</h1>
+                <div class="row mb-4">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class='input-group' id='search-logbook-siswa'>
+                            <input type='text' class="form-control" placeholder="Select Date" />
+                            <span class="input-group-text"><i class="feather icon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 mt-1">
+                        <div class="form-group">
+                            <button class="btn btn-info btn-icon" id="btn-search-logbook" type="button" onclick="contentRiwayatLogbook('<?= $_SESSION['the_id'] ?>')"><i class="feather icon-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4" id="list-logbook"></div>
             </div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function() {
-        $('#btn-search-absensi').click();
+        $('#btn-search-logbook').click();
     });
 
     function triggerClick(e) {
@@ -78,24 +118,48 @@ $absensi = $absensi->getAbsensiTodayBySiswaId($_SESSION['the_id']);
                 document.querySelector('#image-placeholder').setAttribute('src', e.target.result);
             }
             reader.readAsDataURL(e.files[0]);
-            $('#btn-absensi').prop('disabled', false);
+            let catatan = $('#catatan-kegiatan').val();
+            let status_logbook = $('#status_logbook').val();
+            if (status_logbook == 'add') {
+                if (catatan != '') {
+                    $('#btn-logbook').attr('disabled', false);
+                }
+            }
         }
     }
 
-    function absensiSiswa(status) {
+    function cekCatatan() {
+        let catatan = $('#catatan-kegiatan').val();
         let foto = $('#foto').prop('files')[0];
+        let status_logbook = $('#status_logbook').val();
+        if (status_logbook == 'add') {
+            if (catatan != '' && foto != undefined) {
+                $('#btn-logbook').attr('disabled', false);
+            } else {
+                $('#btn-logbook').attr('disabled', true);
+            }
+        }
+    }
+
+    function logBook(status, logbook_id = '', lampiran_lama = '') {
+        let foto = $('#foto').prop('files')[0];
+        let catatan = $('#catatan-kegiatan').val();
         let form_data = new FormData();
         form_data.append('foto', foto);
-        form_data.append('action', 'absensiSiswa');
+        form_data.append('action', `writeLogbook`);
+        form_data.append('catatan', catatan);
+        form_data.append('logbook_id', logbook_id);
+        form_data.append('lampiran_lama', lampiran_lama);
         form_data.append('status', status);
         $.ajax({
-            url: 'classes/Absensi.php',
+            url: 'classes/Logbook.php',
             method: 'POST',
             data: form_data,
             contentType: false,
             cache: false,
             processData: false,
             success: function(response) {
+                // console.log(response);
                 let res = JSON.parse(response);
                 swal({
                     title: res.title,
@@ -110,71 +174,21 @@ $absensi = $absensi->getAbsensiTodayBySiswaId($_SESSION['the_id']);
         });
     }
 
-    function repeatAbsen(absensi_id, lampiran_masuk) {
-        swal({
-            title: "Apakah anda yakin?",
-            text: "Anda akan mengulang absen",
-            icon: "info",
-            buttons: true,
-            dangerMode: true,
-        }).then((willLogout) => {
-            if (willLogout) {
-                $.ajax({
-                    url: 'classes/Absensi.php',
-                    type: 'post',
-                    data: {
-                        absensi_id: absensi_id,
-                        lampiran_masuk: lampiran_masuk,
-                        action: 'repeatAbsen'
-                    },
-                    success: function(response) {
-                        if (response == 'success') {
-                            swal("Berhasil!", "Silahkan mengulang absensi!", "info", {
-                                button: false,
-                                timer: 2000
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            swal("Gagal!", "Anda gagal mengulang", "error", {
-                                button: false,
-                                timer: 2000
-                            });
-                        }
-                    }
-                });
-            } else {
-                swal("Anda tidak jadi mengulang absensi", {
-                    icon: "info",
-                    button: false,
-                    timer: 2000
-                }).then(() => {
-                    location.reload();
-                });
-            }
-        });
-    }
-
-    function searchAbsensi(siswa_id) {
-        $('#table-list-riwayat').DataTable().destroy();
-        let search = $('#search-absensi-siswa input').val();
+    function contentRiwayatLogbook(siswa_id) {
+        let search = $('#search-logbook-siswa input').val();
         let tgl1 = search.split(' / ')[0];
         let tgl2 = search.split(' / ')[1];
         $.ajax({
-            url: 'content/riwayat-absensi-siswa-page.php',
+            url: 'content/riwayat-logbook-siswa-page.php',
             type: 'post',
             data: {
                 tgl1: tgl1,
                 tgl2: tgl2,
                 siswa_id: siswa_id,
-                action: 'searchAbsensi'
-            },
-            beforeSend: function() {
-                $('#list-riwayat').html('<tr><td colspan="5" class="text-center">Loading ...</td></tr>');
+                action: 'searchLogbook'
             },
             success: function(response) {
-                $('#list-riwayat').html(response);
-                $('#table-list-riwayat').DataTable();
+                $('#list-logbook').html(response);
             }
         });
     }

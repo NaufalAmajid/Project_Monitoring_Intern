@@ -97,6 +97,11 @@ $func = new Functions();
             height: auto;
             display: block;
         }
+
+        .header-logbook {
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </head>
 
@@ -260,6 +265,14 @@ $func = new Functions();
             cancelClass: 'btn-secondary'
         }, function(start, end, label) {
             $('#search-absensi-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
+        });
+
+        $('#search-logbook-siswa').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#search-logbook-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
         });
 
 
