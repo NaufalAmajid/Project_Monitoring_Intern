@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2024 at 03:23 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Waktu pembuatan: 31 Bulan Mei 2024 pada 09.09
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `absensi`
+-- Struktur dari tabel `absensi`
 --
 
 CREATE TABLE `absensi` (
@@ -39,7 +39,7 @@ CREATE TABLE `absensi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `absensi`
+-- Dumping data untuk tabel `absensi`
 --
 
 INSERT INTO `absensi` (`absensi_id`, `hari`, `masuk`, `keluar`, `lampiran_masuk`, `is_verified`, `siswa_id`, `lampiran_keluar`) VALUES
@@ -49,7 +49,7 @@ INSERT INTO `absensi` (`absensi_id`, `hari`, `masuk`, `keluar`, `lampiran_masuk`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_pembimbing`
+-- Struktur dari tabel `detail_pembimbing`
 --
 
 CREATE TABLE `detail_pembimbing` (
@@ -61,7 +61,7 @@ CREATE TABLE `detail_pembimbing` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `detail_pembimbing`
+-- Dumping data untuk tabel `detail_pembimbing`
 --
 
 INSERT INTO `detail_pembimbing` (`pembimbing_id`, `no`, `nama_lengkap`, `jenis_kelamin`, `user_id`) VALUES
@@ -71,7 +71,7 @@ INSERT INTO `detail_pembimbing` (`pembimbing_id`, `no`, `nama_lengkap`, `jenis_k
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_siswa`
+-- Struktur dari tabel `detail_siswa`
 --
 
 CREATE TABLE `detail_siswa` (
@@ -86,7 +86,7 @@ CREATE TABLE `detail_siswa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `detail_siswa`
+-- Dumping data untuk tabel `detail_siswa`
 --
 
 INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`) VALUES
@@ -98,7 +98,7 @@ INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kela
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hak_akses_menu`
+-- Struktur dari tabel `hak_akses_menu`
 --
 
 CREATE TABLE `hak_akses_menu` (
@@ -108,7 +108,7 @@ CREATE TABLE `hak_akses_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `hak_akses_menu`
+-- Dumping data untuk tabel `hak_akses_menu`
 --
 
 INSERT INTO `hak_akses_menu` (`id`, `menu_id`, `status_user_id`) VALUES
@@ -124,7 +124,7 @@ INSERT INTO `hak_akses_menu` (`id`, `menu_id`, `status_user_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jurusan`
+-- Struktur dari tabel `jurusan`
 --
 
 CREATE TABLE `jurusan` (
@@ -134,7 +134,7 @@ CREATE TABLE `jurusan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `jurusan`
+-- Dumping data untuk tabel `jurusan`
 --
 
 INSERT INTO `jurusan` (`jurusan_id`, `nama_jurusan`, `is_active`) VALUES
@@ -150,7 +150,7 @@ INSERT INTO `jurusan` (`jurusan_id`, `nama_jurusan`, `is_active`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kelas`
+-- Struktur dari tabel `kelas`
 --
 
 CREATE TABLE `kelas` (
@@ -162,7 +162,7 @@ CREATE TABLE `kelas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `kelas`
+-- Dumping data untuk tabel `kelas`
 --
 
 INSERT INTO `kelas` (`kelas_id`, `nama_kelas`, `jurusan_id`, `pembimbing_id`, `is_active`) VALUES
@@ -178,7 +178,7 @@ INSERT INTO `kelas` (`kelas_id`, `nama_kelas`, `jurusan_id`, `pembimbing_id`, `i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logbook`
+-- Struktur dari tabel `logbook`
 --
 
 CREATE TABLE `logbook` (
@@ -186,14 +186,23 @@ CREATE TABLE `logbook` (
   `catatan` text NOT NULL,
   `lampiran` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `is_verified` tinyint(1) NOT NULL,
+  `is_verified` tinyint(1) NOT NULL DEFAULT 0,
   `siswa_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `logbook`
+--
+
+INSERT INTO `logbook` (`logbook_id`, `catatan`, `lampiran`, `created_at`, `is_verified`, `siswa_id`) VALUES
+(1, 'test 123', '1_20240531080059.png', '2024-05-30 08:00:59', 1, 1),
+(2, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', '1_20240531101321.png', '2024-05-29 10:13:21', 0, 1),
+(3, 'Cras eleifend vel tortor non eleifend. Proin massa lacus, fringilla eget dictum in, faucibus convallis eros. Phasellus justo est, maximus iaculis efficitur nec, fermentum et dolor. Nunc dapibus augue sed tristique pellentesque. Quisque sapien erat, bibendum in purus in, blandit auctor augue. Phasellus gravida at augue nec rutrum. Integer eros nunc, fringilla nec libero non, lacinia maximus ex. Duis vehicula gravida massa id rhoncus. Cras leo nisl, molestie eu tristique id, vulputate sit amet ante. Curabitur sagittis varius est, in viverra ligula rutrum in. Aliquam erat volutpat. Mauris tempus ex mauris, et condimentum erat imperdiet ac. Sed gravida non diam faucibus luctus.', '1_20240531125157.png', '2024-05-28 12:51:57', 0, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `menu`
+-- Struktur dari tabel `menu`
 --
 
 CREATE TABLE `menu` (
@@ -203,7 +212,7 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `menu`
+-- Dumping data untuk tabel `menu`
 --
 
 INSERT INTO `menu` (`menu_id`, `nama_menu`, `direktori`) VALUES
@@ -217,7 +226,7 @@ INSERT INTO `menu` (`menu_id`, `nama_menu`, `direktori`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status_user`
+-- Struktur dari tabel `status_user`
 --
 
 CREATE TABLE `status_user` (
@@ -226,7 +235,7 @@ CREATE TABLE `status_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `status_user`
+-- Dumping data untuk tabel `status_user`
 --
 
 INSERT INTO `status_user` (`status_user_id`, `nama_status_user`) VALUES
@@ -237,7 +246,7 @@ INSERT INTO `status_user` (`status_user_id`, `nama_status_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `submenu`
+-- Struktur dari tabel `submenu`
 --
 
 CREATE TABLE `submenu` (
@@ -248,7 +257,7 @@ CREATE TABLE `submenu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `submenu`
+-- Dumping data untuk tabel `submenu`
 --
 
 INSERT INTO `submenu` (`submenu_id`, `nama_submenu`, `direktori`, `menu_id`) VALUES
@@ -261,7 +270,7 @@ INSERT INTO `submenu` (`submenu_id`, `nama_submenu`, `direktori`, `menu_id`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
@@ -274,7 +283,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `status_user_id`, `email`, `is_active`) VALUES
@@ -291,21 +300,21 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `status_user_id`, `email`
 --
 
 --
--- Indexes for table `absensi`
+-- Indeks untuk tabel `absensi`
 --
 ALTER TABLE `absensi`
   ADD PRIMARY KEY (`absensi_id`),
   ADD KEY `fk_abs_siswa` (`siswa_id`);
 
 --
--- Indexes for table `detail_pembimbing`
+-- Indeks untuk tabel `detail_pembimbing`
 --
 ALTER TABLE `detail_pembimbing`
   ADD PRIMARY KEY (`pembimbing_id`),
   ADD KEY `fk_dp_user` (`user_id`);
 
 --
--- Indexes for table `detail_siswa`
+-- Indeks untuk tabel `detail_siswa`
 --
 ALTER TABLE `detail_siswa`
   ADD PRIMARY KEY (`siswa_id`),
@@ -313,7 +322,7 @@ ALTER TABLE `detail_siswa`
   ADD KEY `fk_ds_kelas` (`kelas_id`);
 
 --
--- Indexes for table `hak_akses_menu`
+-- Indeks untuk tabel `hak_akses_menu`
 --
 ALTER TABLE `hak_akses_menu`
   ADD PRIMARY KEY (`id`),
@@ -321,13 +330,13 @@ ALTER TABLE `hak_akses_menu`
   ADD KEY `fk_ham_status_user` (`status_user_id`);
 
 --
--- Indexes for table `jurusan`
+-- Indeks untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
   ADD PRIMARY KEY (`jurusan_id`);
 
 --
--- Indexes for table `kelas`
+-- Indeks untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
   ADD PRIMARY KEY (`kelas_id`),
@@ -335,140 +344,140 @@ ALTER TABLE `kelas`
   ADD KEY `fk_kel_pembimbing` (`pembimbing_id`);
 
 --
--- Indexes for table `logbook`
+-- Indeks untuk tabel `logbook`
 --
 ALTER TABLE `logbook`
   ADD PRIMARY KEY (`logbook_id`);
 
 --
--- Indexes for table `menu`
+-- Indeks untuk tabel `menu`
 --
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`menu_id`);
 
 --
--- Indexes for table `status_user`
+-- Indeks untuk tabel `status_user`
 --
 ALTER TABLE `status_user`
   ADD PRIMARY KEY (`status_user_id`);
 
 --
--- Indexes for table `submenu`
+-- Indeks untuk tabel `submenu`
 --
 ALTER TABLE `submenu`
   ADD PRIMARY KEY (`submenu_id`),
   ADD KEY `fk_menu` (`menu_id`);
 
 --
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `fk_status_user` (`status_user_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `absensi`
+-- AUTO_INCREMENT untuk tabel `absensi`
 --
 ALTER TABLE `absensi`
   MODIFY `absensi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `detail_pembimbing`
+-- AUTO_INCREMENT untuk tabel `detail_pembimbing`
 --
 ALTER TABLE `detail_pembimbing`
   MODIFY `pembimbing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `detail_siswa`
+-- AUTO_INCREMENT untuk tabel `detail_siswa`
 --
 ALTER TABLE `detail_siswa`
   MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `hak_akses_menu`
+-- AUTO_INCREMENT untuk tabel `hak_akses_menu`
 --
 ALTER TABLE `hak_akses_menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `jurusan`
+-- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
   MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `kelas`
+-- AUTO_INCREMENT untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
   MODIFY `kelas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `logbook`
+-- AUTO_INCREMENT untuk tabel `logbook`
 --
 ALTER TABLE `logbook`
-  MODIFY `logbook_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `logbook_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `status_user`
+-- AUTO_INCREMENT untuk tabel `status_user`
 --
 ALTER TABLE `status_user`
   MODIFY `status_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `absensi`
+-- Ketidakleluasaan untuk tabel `absensi`
 --
 ALTER TABLE `absensi`
   ADD CONSTRAINT `fk_abs_siswa` FOREIGN KEY (`siswa_id`) REFERENCES `detail_siswa` (`siswa_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `detail_pembimbing`
+-- Ketidakleluasaan untuk tabel `detail_pembimbing`
 --
 ALTER TABLE `detail_pembimbing`
   ADD CONSTRAINT `fk_dp_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `detail_siswa`
+-- Ketidakleluasaan untuk tabel `detail_siswa`
 --
 ALTER TABLE `detail_siswa`
   ADD CONSTRAINT `fk_ds_kelas` FOREIGN KEY (`kelas_id`) REFERENCES `kelas` (`kelas_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ds_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `hak_akses_menu`
+-- Ketidakleluasaan untuk tabel `hak_akses_menu`
 --
 ALTER TABLE `hak_akses_menu`
   ADD CONSTRAINT `fk_ham_menu` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ham_status_user` FOREIGN KEY (`status_user_id`) REFERENCES `status_user` (`status_user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `kelas`
+-- Ketidakleluasaan untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
   ADD CONSTRAINT `fk_kel_jurusan` FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`jurusan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_kel_pembimbing` FOREIGN KEY (`pembimbing_id`) REFERENCES `detail_pembimbing` (`pembimbing_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `submenu`
+-- Ketidakleluasaan untuk tabel `submenu`
 --
 ALTER TABLE `submenu`
   ADD CONSTRAINT `fk_menu` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `user`
+-- Ketidakleluasaan untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `fk_status_user` FOREIGN KEY (`status_user_id`) REFERENCES `status_user` (`status_user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
