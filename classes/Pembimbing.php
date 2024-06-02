@@ -9,7 +9,7 @@ class Pembimbing
         $this->conn = DB::getInstance()->connection();
     }
 
-    public function getAllPembimbing()
+    public function getAllPembimbing($forAddKelas = false)
     {
         $query = "select
                         us.username,

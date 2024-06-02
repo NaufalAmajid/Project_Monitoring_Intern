@@ -8,7 +8,7 @@ $jurusan = new Jurusan();
 $jurusans = $jurusan->getAllJurusan($_GET['search']);
 
 $pembimbing = new Pembimbing();
-$pembimbings = $pembimbing->getAllPembimbing();
+$pembimbings = $pembimbing->getAllPembimbing(true);
 ?>
 <div class="row">
     <?php foreach ($jurusans as $jurusan_id => $jurusan) : ?>

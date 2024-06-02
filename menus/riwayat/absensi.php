@@ -15,6 +15,10 @@
     </div>
 </div>
 <!-- [ breadcrumb ] end -->
+<?php
+include 'classes/RiwayatAbsensi.php';
+$riwayatAbsensi = new RiwayatAbsensi();
+?>
 <div class="row mb-4">
     <div class="col-sm-12">
         <div class="row">
@@ -25,53 +29,255 @@
                     </li>
                     <li><a class="nav-link text-start" id="v-pills-messages-tab" data-bs-toggle="pill" href="#all">Semua</a>
                     </li>
-                    <li><a class="nav-link text-start" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
-                    </li>
                 </ul>
             </div>
             <div class="col-md-9 col-sm-12">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="today">
-                        <p class="mb-0">Cillum ad ut irure tempor velit nostrud occaecat ullamco
-                            aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna
-                            mollit excepteur laborum qui. Id id reprehenderit sit est
-                            eu aliqua
-                            occaecat quis et velit excepteur laborum mollit dolore eiusmod.
-                            Ipsum dolor in occaecat commodo et voluptate minim reprehenderit
-                            mollit pariatur. Deserunt non laborum enim et cillum eu deserunt
-                            excepteur ea incididunt minim occaecat.</p>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>NIS</th>
+                                        <th>Kelas</th>
+                                        <th>Jurusan</th>
+                                        <th>Masuk</th>
+                                        <th>Keluar</th>
+                                        <th>Verifikasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $riwayatAbsensiToday = $riwayatAbsensi->getAbsensiSiswaToday($_SESSION['the_id']);
+                                    $no = 1;
+                                    ?>
+                                    <?php foreach ($riwayatAbsensiToday as $today) : ?>
+                                        <tr>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $today['nama_siswa'] ?></td>
+                                            <td><?= $today['nis'] ?></td>
+                                            <td><?= $today['nama_kelas'] ?></td>
+                                            <td><?= $today['nama_jurusan'] ?></td>
+                                            <td>
+                                                <center>
+                                                    <div><?= $today['masuk'] ?></div>
+                                                    <div>
+                                                        <img src="lampiran/absensi/<?= $today['lampiran_masuk'] ?>" alt="<?= $today['lampiran_masuk'] ?>" class="img-thumbnail">
+                                                    </div>
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <div><?= $today['keluar'] ?></div>
+                                                    <?php if ($today['lampiran_keluar']) : ?>
+                                                        <div>
+                                                            <img src="lampiran/absensi/<?= $today['lampiran_keluar'] ?>" alt="<?= $today['lampiran_masuk'] ?>" class="img-thumbnail">
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-switch custom-switch-v1 mb-2">
+                                                    <input type="checkbox" class="form-check-input input-info custom-control-input" id="customswitchv2-6" <?= $today['is_verified'] == 1 ? 'checked disabled' : '' ?> onchange="verifAbsensi('<?= $today['absensi_id'] ?>')">
+                                                    <label class="form-check-label align-text-top" for="customswitchv2-6"><?= $today['is_verified'] == 1 ? 'Terverifikasi' : 'Belum diverifikasi' ?></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="unverified">
-                        <p class="mb-0">Culpa dolor voluptate do laboris laboris irure
-                            reprehenderit id incididunt duis pariatur mollit aute magna pariatur
-                            consectetur. Eu veniam duis non ut dolor deserunt commodo et
-                            minim in quis
-                            laboris ipsum velit id veniam. Quis ut consectetur adipisicing
-                            officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu.
-                            Ullamco mollit occaecat dolore ipsum id officia mollit qui
-                            esse anim eiusmod do sint minim consectetur qui.</p>
+                        <div class="row mb-4">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class='input-group' id='search-riwabsensi-unverif-siswa'>
+                                    <input type='text' class="form-control" placeholder="Select Date" />
+                                    <span class="input-group-text"><i class="feather icon-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-icon" id="btn-search-riwabsensi-unverif" type="button" onclick="searchRiAbsensiUnverif('<?= $_SESSION['the_id'] ?>')"><i class="feather icon-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table-riwabsensi-unverified">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>NIS</th>
+                                        <th>Kelas</th>
+                                        <th>Jurusan</th>
+                                        <th>Hari</th>
+                                        <th>Masuk</th>
+                                        <th>Keluar</th>
+                                        <th>Verifikasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-riwabsensi-unverified"></tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="all">
-                        <p class="mb-0">Fugiat id quis dolor culpa eiusmod anim velit excepteur
-                            proident dolor aute qui magna. Ad proident laboris ullamco esse anim
-                            Lorem Lorem veniam quis Lorem irure occaecat velit
-                            nostrud magna
-                            nulla. Velit et et proident Lorem do ea tempor officia dolor.
-                            Reprehenderit Lorem aliquip labore est magna commodo est ea veniam
-                            consectetur.</p>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                        <p class="mb-0">Eu dolore ea ullamco dolore Lorem id cupidatat excepteur
-                            reprehenderit consectetur elit id dolor proident in cupidatat
-                            officia. Voluptate excepteur commodo labore nisi cillum duis
-                            aliqua do.
-                            Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam
-                            nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore
-                            officia magna elit nisi in aute tempor commodo eiusmod.
-                        </p>
+                        <div class="row mb-4">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class='input-group' id='search-riwabsensi-all-siswa'>
+                                    <input type='text' class="form-control" placeholder="Select Date" />
+                                    <span class="input-group-text"><i class="feather icon-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-icon" id="btn-search-riwabsensi-all" type="button" onclick="searchRiAbsensiAll('<?= $_SESSION['the_id'] ?>')"><i class="feather icon-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table-riwabsensi-all">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>NIS</th>
+                                        <th>Kelas</th>
+                                        <th>Jurusan</th>
+                                        <th>Hari</th>
+                                        <th>Masuk</th>
+                                        <th>Keluar</th>
+                                        <th>Verifikasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-riwabsensi-all"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#btn-search-riwabsensi-unverif, #btn-search-riwabsensi-all').click();
+    });
+
+    function verifAbsensi(absensi_id) {
+        $.ajax({
+            url: 'classes/RiwayatAbsensi.php',
+            type: 'POST',
+            data: {
+                absensi_id: absensi_id,
+                action: 'verif'
+            },
+            success: function(data) {
+                let res = JSON.parse(data);
+                swal({
+                    title: res.title,
+                    text: res.message,
+                    icon: res.status,
+                    button: false,
+                    timer: 2000
+                }).then(() => {
+                    location.reload();
+                })
+            }
+        });
+    }
+
+    function searchRiAbsensiUnverif(pembimbing_id) {
+        $('#table-riwabsensi-unverified').DataTable().destroy();
+        let search = $('#search-riwabsensi-unverif-siswa input').val();
+        let tgl1 = search.split(' / ')[0];
+        let tgl2 = search.split(' / ')[1];
+        $.ajax({
+            url: 'content/riwayat-absensi-unverif-pembimbing-page.php',
+            type: 'post',
+            data: {
+                tgl1: tgl1,
+                tgl2: tgl2,
+                pembimbing_id: pembimbing_id,
+                action: 'searchAbsensiUnverif'
+            },
+            beforeSend: function() {
+                $('#list-riwabsensi-unverified').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
+            },
+            success: function(response) {
+                $('#list-riwabsensi-unverified').html(response);
+                $('#table-riwabsensi-unverified').DataTable({
+                    paging: true,
+                    searching: false,
+                    info: true,
+                    dom: 'Bfrtip',
+                    buttons: [{
+                            extend: 'excel',
+                            text: 'Excel',
+                            title: 'Data Riwayat Absensi Siswa Belum Diverifikasi',
+
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'PDF',
+                            title: 'Data Riwayat Absensi Siswa Belum Diverifikasi',
+                        },
+                        {
+                            extend: 'print',
+                            text: 'Print',
+                            title: 'Data Riwayat Absensi Siswa Belum Diverifikasi',
+                        }
+                    ]
+                });
+            }
+        });
+    }
+
+    function searchRiAbsensiAll(pembimbing_id) {
+        $('#table-riwabsensi-all').DataTable().destroy();
+        let search = $('#search-riwabsensi-all-siswa input').val();
+        let tgl1 = search.split(' / ')[0];
+        let tgl2 = search.split(' / ')[1];
+        $.ajax({
+            url: 'content/riwayat-absensi-all-pembimbing-page.php',
+            type: 'post',
+            data: {
+                tgl1: tgl1,
+                tgl2: tgl2,
+                pembimbing_id: pembimbing_id,
+                action: 'searchAbsensiAll'
+            },
+            beforeSend: function() {
+                $('#list-riwabsensi-all').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
+            },
+            success: function(response) {
+                $('#list-riwabsensi-all').html(response);
+                $('#table-riwabsensi-all').DataTable({
+                    paging: true,
+                    searching: false,
+                    info: true,
+                    dom: 'Bfrtip',
+                    buttons: [{
+                            extend: 'excel',
+                            text: 'Excel',
+                            title: 'Data Riwayat Absensi Siswa',
+
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'PDF',
+                            title: 'Data Riwayat Absensi Siswa',
+                        },
+                        {
+                            extend: 'print',
+                            text: 'Print',
+                            title: 'Data Riwayat Absensi Siswa',
+                        }
+                    ]
+                });
+            }
+        });
+    }
+</script>

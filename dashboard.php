@@ -274,6 +274,22 @@ $func = new Functions();
         }, function(start, end, label) {
             $('#search-logbook-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
         });
+        
+        $('#search-riwabsensi-unverif-siswa').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#search-riwabsensi-unverif-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
+        });
+        
+        $('#search-riwabsensi-all-siswa').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#search-riwabsensi-all-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
+        });
 
 
         function Logout(changePassword = false) {
