@@ -16,8 +16,8 @@
 </div>
 <!-- [ breadcrumb ] end -->
 <?php
-include 'classes/RiwayatAbsensi.php';
-$riwayatAbsensi = new RiwayatAbsensi();
+include 'classes/RiwayatLogbook.php';
+$riwayatLogbook = new RiwayatLogbook();
 ?>
 <div class="row mb-4">
     <div class="col-sm-12">
@@ -43,44 +43,36 @@ $riwayatAbsensi = new RiwayatAbsensi();
                                         <th>NIS</th>
                                         <th>Kelas</th>
                                         <th>Jurusan</th>
-                                        <th>Masuk</th>
-                                        <th>Keluar</th>
+                                        <th>Hari</th>
+                                        <th>Catatan</th>
+                                        <th>Lampiran</th>
                                         <th>Verifikasi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $riwayatAbsensiToday = $riwayatAbsensi->getAbsensiSiswaToday($_SESSION['the_id']);
+                                    $riwayatLogbookToday = $riwayatLogbook->getLogbookSiswaToday($_SESSION['the_id']);
                                     $no = 1;
                                     ?>
-                                    <?php foreach ($riwayatAbsensiToday as $today) : ?>
+                                    <?php foreach ($riwayatLogbookToday as $today) : ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $today['nama_siswa'] ?></td>
                                             <td><?= $today['nis'] ?></td>
                                             <td><?= $today['nama_kelas'] ?></td>
                                             <td><?= $today['nama_jurusan'] ?></td>
+                                            <td><?= $func->dateIndonesia($today['hari']) . ' ' . $today['jam'] ?></td>
+                                            <td><textarea rows="3" readonly><?= $today['catatan'] ?></textarea></td>
                                             <td>
-                                                <center>
-                                                    <div><?= $today['masuk'] ?></div>
-                                                    <div>
-                                                        <img src="lampiran/absensi/<?= $today['lampiran_masuk'] ?>" alt="<?= $today['lampiran_masuk'] ?>" class="img-thumbnail">
-                                                    </div>
-                                                </center>
-                                            </td>
-                                            <td>
-                                                <center>
-                                                    <div><?= $today['keluar'] ?></div>
-                                                    <?php if ($today['lampiran_keluar']) : ?>
-                                                        <div>
-                                                            <img src="lampiran/absensi/<?= $today['lampiran_keluar'] ?>" alt="<?= $today['lampiran_masuk'] ?>" class="img-thumbnail">
-                                                        </div>
-                                                    <?php endif; ?>
-                                                </center>
+                                                <?php if ($today['lampiran'] != '') : ?>
+                                                    <a href="lampiran/logbook/<?= $today['lampiran'] ?>" target="_blank">Lihat Lampiran</a>
+                                                <?php else : ?>
+                                                    -
+                                                <?php endif; ?>
                                             </td>
                                             <td>
                                                 <div class="form-check form-switch custom-switch-v1 mb-2">
-                                                    <input type="checkbox" class="form-check-input input-info custom-control-input" id="customswitchv2-6" <?= $today['is_verified'] == 1 ? 'checked disabled' : '' ?> onchange="verifAbsensi('<?= $today['absensi_id'] ?>')">
+                                                    <input type="checkbox" class="form-check-input input-info custom-control-input" id="customswitchv2-6" <?= $today['is_verified'] == 1 ? 'checked disabled' : '' ?> onchange="verifLogbook('<?= $today['logbook_id'] ?>')">
                                                     <label class="form-check-label align-text-top" for="customswitchv2-6"><?= $today['is_verified'] == 1 ? 'Terverifikasi' : 'Belum diverifikasi' ?></label>
                                                 </div>
                                             </td>
@@ -93,19 +85,19 @@ $riwayatAbsensi = new RiwayatAbsensi();
                     <div class="tab-pane fade" id="unverified">
                         <div class="row mb-4">
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class='input-group' id='search-riwabsensi-unverif-siswa'>
+                                <div class='input-group' id='search-riwlogbook-unverif-siswa'>
                                     <input type='text' class="form-control" placeholder="Select Date" />
                                     <span class="input-group-text"><i class="feather icon-calendar"></i></span>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-icon" id="btn-search-riwabsensi-unverif" type="button" onclick="searchRiAbsensiUnverif('<?= $_SESSION['the_id'] ?>')"><i class="feather icon-search"></i></button>
+                                    <button class="btn btn-info btn-icon" id="btn-search-riwlogbook-unverif" type="button" onclick="searchRiLogbookUnverif('<?= $_SESSION['the_id'] ?>')"><i class="feather icon-search"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-striped" id="table-riwabsensi-unverified">
+                            <table class="table table-striped" id="table-riwlogbook-unverified">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -114,31 +106,31 @@ $riwayatAbsensi = new RiwayatAbsensi();
                                         <th>Kelas</th>
                                         <th>Jurusan</th>
                                         <th>Hari</th>
-                                        <th>Masuk</th>
-                                        <th>Keluar</th>
+                                        <th>Catatan</th>
+                                        <th>Lampiran</th>
                                         <th>Verifikasi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="list-riwabsensi-unverified"></tbody>
+                                <tbody id="list-riwlogbook-unverified"></tbody>
                             </table>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="all">
                         <div class="row mb-4">
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class='input-group' id='search-riwabsensi-all-siswa'>
+                                <div class='input-group' id='search-riwlogbook-all-siswa'>
                                     <input type='text' class="form-control" placeholder="Select Date" />
                                     <span class="input-group-text"><i class="feather icon-calendar"></i></span>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-icon" id="btn-search-riwabsensi-all" type="button" onclick="searchRiAbsensiAll('<?= $_SESSION['the_id'] ?>')"><i class="feather icon-search"></i></button>
+                                    <button class="btn btn-info btn-icon" id="btn-search-riwlogbook-all" type="button" onclick="searchRiLogbookAll('<?= $_SESSION['the_id'] ?>')"><i class="feather icon-search"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-striped" id="table-riwabsensi-all">
+                            <table class="table table-striped" id="table-riwlogbook-all">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -147,12 +139,12 @@ $riwayatAbsensi = new RiwayatAbsensi();
                                         <th>Kelas</th>
                                         <th>Jurusan</th>
                                         <th>Hari</th>
-                                        <th>Masuk</th>
-                                        <th>Keluar</th>
+                                        <th>Catatan</th>
+                                        <th>Lampiran</th>
                                         <th>Verifikasi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="list-riwabsensi-all"></tbody>
+                                <tbody id="list-riwlogbook-all"></tbody>
                             </table>
                         </div>
                     </div>
@@ -163,15 +155,15 @@ $riwayatAbsensi = new RiwayatAbsensi();
 </div>
 <script>
     $(document).ready(function() {
-        $('#btn-search-riwabsensi-unverif, #btn-search-riwabsensi-all').click();
+        $('#btn-search-riwlogbook-unverif, #btn-search-riwlogbook-all').click();
     });
 
-    function verifAbsensi(absensi_id) {
+    function verifLogbook(logbook_id) {
         $.ajax({
-            url: 'classes/RiwayatAbsensi.php',
+            url: 'classes/RiwayatLogbook.php',
             type: 'POST',
             data: {
-                absensi_id: absensi_id,
+                logbook_id: logbook_id,
                 action: 'verif'
             },
             success: function(data) {
@@ -189,26 +181,26 @@ $riwayatAbsensi = new RiwayatAbsensi();
         });
     }
 
-    function searchRiAbsensiUnverif(pembimbing_id) {
-        $('#table-riwabsensi-unverified').DataTable().destroy();
-        let search = $('#search-riwabsensi-unverif-siswa input').val();
+    function searchRiLogbookUnverif(pembimbing_id) {
+        $('#table-riwlogbook-unverified').DataTable().destroy();
+        let search = $('#search-riwlogbook-unverif-siswa input').val();
         let tgl1 = search.split(' / ')[0];
         let tgl2 = search.split(' / ')[1];
         $.ajax({
-            url: 'content/riwayat-absensi-unverif-pembimbing-page.php',
+            url: 'content/riwayat-logbook-unverif-pembimbing-page.php',
             type: 'post',
             data: {
                 tgl1: tgl1,
                 tgl2: tgl2,
                 pembimbing_id: pembimbing_id,
-                action: 'searchAbsensiUnverif'
+                action: 'searchLogbookUnverif'
             },
             beforeSend: function() {
-                $('#list-riwabsensi-unverified').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
+                $('#list-riwlogbook-unverified').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
             },
             success: function(response) {
-                $('#list-riwabsensi-unverified').html(response);
-                $('#table-riwabsensi-unverified').DataTable({
+                $('#list-riwlogbook-unverified').html(response);
+                $('#table-riwlogbook-unverified').DataTable({
                     paging: true,
                     searching: false,
                     info: true,
@@ -216,18 +208,18 @@ $riwayatAbsensi = new RiwayatAbsensi();
                     buttons: [{
                             extend: 'excel',
                             text: 'Excel',
-                            title: 'Data Riwayat Absensi Siswa Belum Diverifikasi',
+                            title: 'Data Riwayat Logbook Siswa Belum Diverifikasi',
 
                         },
                         {
                             extend: 'pdf',
                             text: 'PDF',
-                            title: 'Data Riwayat Absensi Siswa Belum Diverifikasi',
+                            title: 'Data Riwayat Logbook Siswa Belum Diverifikasi',
                         },
                         {
                             extend: 'print',
                             text: 'Print',
-                            title: 'Data Riwayat Absensi Siswa Belum Diverifikasi',
+                            title: 'Data Riwayat Logbook Siswa Belum Diverifikasi',
                         }
                     ]
                 });
@@ -235,26 +227,26 @@ $riwayatAbsensi = new RiwayatAbsensi();
         });
     }
 
-    function searchRiAbsensiAll(pembimbing_id) {
-        $('#table-riwabsensi-all').DataTable().destroy();
-        let search = $('#search-riwabsensi-all-siswa input').val();
+    function searchRiLogbookAll(pembimbing_id) {
+        $('#table-riwlogbook-all').DataTable().destroy();
+        let search = $('#search-riwlogbook-all-siswa input').val();
         let tgl1 = search.split(' / ')[0];
         let tgl2 = search.split(' / ')[1];
         $.ajax({
-            url: 'content/riwayat-absensi-all-pembimbing-page.php',
+            url: 'content/riwayat-riwlogbook-all-pembimbing-page.php',
             type: 'post',
             data: {
                 tgl1: tgl1,
                 tgl2: tgl2,
                 pembimbing_id: pembimbing_id,
-                action: 'searchAbsensiAll'
+                action: 'searchLogbookAll'
             },
             beforeSend: function() {
-                $('#list-riwabsensi-all').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
+                $('#list-riwlogbook-all').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
             },
             success: function(response) {
-                $('#list-riwabsensi-all').html(response);
-                $('#table-riwabsensi-all').DataTable({
+                $('#list-riwlogbook-all').html(response);
+                $('#table-riwlogbook-all').DataTable({
                     paging: true,
                     searching: false,
                     info: true,
@@ -262,18 +254,18 @@ $riwayatAbsensi = new RiwayatAbsensi();
                     buttons: [{
                             extend: 'excel',
                             text: 'Excel',
-                            title: 'Data Riwayat Absensi Siswa',
+                            title: 'Data Riwayat Logbook Siswa',
 
                         },
                         {
                             extend: 'pdf',
                             text: 'PDF',
-                            title: 'Data Riwayat Absensi Siswa',
+                            title: 'Data Riwayat Logbook Siswa',
                         },
                         {
                             extend: 'print',
                             text: 'Print',
-                            title: 'Data Riwayat Absensi Siswa',
+                            title: 'Data Riwayat Logbook Siswa',
                         }
                     ]
                 });

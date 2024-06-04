@@ -25,7 +25,7 @@ if (isset($_SESSION['is_login'])) {
 	<meta name="author" content="Phoenixcoded" />
 
 	<!-- Favicon icon -->
-	<link rel="icon" href="assets/images/favicon.svg" type="image/x-icon">
+	<link rel="icon" href="assets/images/logo.png" type="image/x-icon">
 	<!-- fontawesome icon -->
 	<link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.min.css">
 	<!-- animation css -->
@@ -45,7 +45,7 @@ if (isset($_SESSION['is_login'])) {
 				<div class="row align-items-center">
 					<div class="col-md-6">
 						<div class="card-body">
-							<img src="assets/images/logo-dark.svg" alt="" class="img-fluid mb-4">
+							<img src="assets/images/mylogo-icon.svg" width="70" alt="" class="img-fluid mb-4">
 							<h4 class="mb-3 f-w-400">Silahkan Login Disini!</h4>
 							<form id="form-login">
 								<div class="form-group mb-4">
@@ -67,40 +67,30 @@ if (isset($_SESSION['is_login'])) {
 								<li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></li>
 								<li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></li>
 								<li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></li>
-								<li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"></li>
 							</ol>
 							<div class="carousel-inner">
 								<div class="carousel-item active">
 									<div class="auth-prod-slidebg bg-1"></div>
 									<div class="carousel-caption d-none d-md-block">
-										<img src="assets/images/product/prod-1.jpg" alt="product images" class="img-fluid mb-5">
-										<h5>First slide label</h5>
-										<p class="mb-5">Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+										<img src="assets/images/sistem_monitoring.jpg" alt="product images" class="img-fluid mb-5">
+										<h5>Sistem Monitoring PKL</h5>
+										<p class="mb-5">SMK Ma'arif NU 2 Boyolali</p>
 									</div>
 								</div>
 								<div class="carousel-item">
 									<div class="auth-prod-slidebg bg-2"></div>
 									<div class="carousel-caption d-none d-md-block">
-										<img src="assets/images/product/prod-2.jpg" alt="product images" class="img-fluid mb-5">
-										<h5>Second slide label</h5>
-										<p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+										<img src="assets/images/sistem_monitoring2.jpg" alt="product images" class="img-fluid mb-5">
+										<h5>Selamat Datang</h5>
+										<p class="mb-5">Silahkan Login Terlebih Dahulu Untuk Masuk.</p>
 									</div>
 								</div>
 								<div class="carousel-item">
 									<div class="auth-prod-slidebg bg-3"></div>
 									<div class="carousel-caption d-none d-md-block">
-										<img src="assets/images/product/prod-1.jpg" alt="product images" class="img-fluid mb-5">
-										<h5>Third slide label</h5>
-										<p class="mb-5">Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-										</p>
-									</div>
-								</div>
-								<div class="carousel-item">
-									<div class="auth-prod-slidebg bg-4"></div>
-									<div class="carousel-caption d-none d-md-block">
-										<img src="assets/images/product/prod-2.jpg" alt="product images" class="img-fluid mb-5">
-										<h5>Forth slide label</h5>
-										<p class="mb-5">Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+										<img src="assets/images/logbook.jpg" alt="product images" class="img-fluid mb-5">
+										<h5>Digital Logbook & Absensi</h5>
+										<p class="mb-5">Absensi Kehadiran & Pengisian Logbook Kegiatan Siswa Yang Menjalankan PKL.
 										</p>
 									</div>
 								</div>

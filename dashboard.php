@@ -32,7 +32,7 @@ $func = new Functions();
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- Favicon icon -->
-    <link rel="icon" href="assets/images/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="assets/images/logo.png" type="image/x-icon">
     <!-- fontawesome icon -->
     <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.min.css">
     <!-- animation css -->
@@ -59,7 +59,7 @@ $func = new Functions();
     <link rel="stylesheet" href="assets/css/style.css">
 
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="assets/js/jquery-3.7.1.js"></script>
     <style>
         .input-border-bottom {
             border: none;
@@ -117,9 +117,9 @@ $func = new Functions();
     <nav class="pcoded-navbar menupos-fixed menu-dark menu-item-icon-style6 ">
         <div class="navbar-wrapper ">
             <div class="navbar-brand header-logo">
-                <a href="index.html" class="b-brand">
-                    <img src="assets/images/logo.svg" alt="logo" class="logo images">
-                    <img src="assets/images/logo-icon.svg" alt="logo" class="logo-thumb images">
+                <a href="dashboard.php" class="b-brand">
+                    <img src="assets/images/mylogo.svg" alt="logo" class="logo images" width="180">
+                    <img src="assets/images/mylogo-icon.svg" alt="logo" class="logo-thumb images" width="35">
                 </a>
                 <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             </div>
@@ -161,10 +161,9 @@ $func = new Functions();
 
         <div class="m-header">
             <a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
-            <a href="index.html" class="b-brand">
-
-                <img src="assets/images/logo.svg" alt="" class="logo images">
-                <img src="assets/images/logo-icon.svg" alt="" class="logo-thumb images">
+            <a href="dashboard.php" class="b-brand">
+                <img src="assets/images/mylogo.svg" alt="" class="logo images" width="150" height="200">
+                <img src="assets/images/mylogo-icon.svg" alt="" class="logo-thumb images">
             </a>
         </div>
         <a class="mobile-menu" id="mobile-header" href="#!">
@@ -182,7 +181,13 @@ $func = new Functions();
                         </a>
                         <div class="dropdown-menu dropdown-menu-end profile-notification">
                             <div class="pro-head">
-                                <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
+                                <?php if ($_SESSION['status_user_id'] == 1) : ?>
+                                    <img src="assets/images/admin.png" class="img-radius" alt="User-Profile-Image">
+                                <?php elseif ($_SESSION['status_user_id'] == 2) : ?>
+                                    <img src="assets/images/teacher.png" class="img-radius" alt="User-Profile-Image">
+                                <?php else : ?>
+                                    <img src="assets/images/student.png" class="img-radius" alt="User-Profile-Image">
+                                <?php endif; ?>
                                 <span>
                                     <span class="text-muted"><?= ucwords($_SESSION['nama_status_user']) ?></span>
                                     <span class="h6"><?= ucwords($_SESSION['nama']) ?></span>
@@ -274,7 +279,7 @@ $func = new Functions();
         }, function(start, end, label) {
             $('#search-logbook-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
         });
-        
+
         $('#search-riwabsensi-unverif-siswa').daterangepicker({
             buttonClasses: ' btn',
             applyClass: 'btn-primary',
@@ -282,13 +287,29 @@ $func = new Functions();
         }, function(start, end, label) {
             $('#search-riwabsensi-unverif-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
         });
-        
+
         $('#search-riwabsensi-all-siswa').daterangepicker({
             buttonClasses: ' btn',
             applyClass: 'btn-primary',
             cancelClass: 'btn-secondary'
         }, function(start, end, label) {
             $('#search-riwabsensi-all-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
+        });
+
+        $('#search-riwlogbook-unverif-siswa').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#search-riwlogbook-unverif-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
+        });
+
+        $('#search-riwlogbook-all-siswa').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#search-riwlogbook-all-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
         });
 
 

@@ -76,7 +76,7 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
-                            <button class="btn btn-primary col-md-12" disabled id="btn-logbook" onclick="logBook('add')">Update</button>
+                            <button class="btn btn-primary col-md-12" disabled id="btn-logbook" onclick="logBook('add')">Simpan</button>
                         </div>
                     </div>
                 <?php endif; ?>
