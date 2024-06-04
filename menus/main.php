@@ -155,6 +155,7 @@ $colors = ['primary', 'success', 'danger', 'warning', 'info', 'dark'];
         <h4>Anda Login Sebagai <?= ucwords($_SESSION['nama_status_user']) ?></h4>
         <h5>Jurusan <?= ucwords($siswa['nama_jurusan']) ?> Kelas <?= ucwords($siswa['nama_kelas']) ?></h5>
         <h6>Nama Pembimbing <?= ucwords($siswa['nama_pembimbing']) ?></h6>
+        <h6>Tempat PKL <?= ucwords($siswa['tempat_pkl']) ?></h6>
     </center>
 <?php endif; ?>
 <!-- [ Main Content ] end -->

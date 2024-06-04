@@ -37,6 +37,7 @@ $no = 1;
                             <th>NIS</th>
                             <th>Kelas</th>
                             <th>Jurusan</th>
+                            <th>Tempat PKL</th>
                             <th>Absensi <br> Terverifikasi</th>
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
@@ -53,6 +54,7 @@ $no = 1;
                                 <td><?= $siswa['nis'] ?></td>
                                 <td><?= $siswa['nama_kelas'] ?></td>
                                 <td><?= $siswa['nama_jurusan'] ?></td>
+                                <td><?= $siswa['tempat_pkl'] ?></td>
                                 <td><?= $siswa['jumlah_absensi_verified'] ?></td>
                                 <td class="bg-danger"><?= $siswa['jumlah_absensi_unverified'] ?></td>
                                 <td><?= $siswa['jumlah_logbook_verified'] ?></td>
@@ -74,6 +76,7 @@ $no = 1;
                             <th>NIS</th>
                             <th>Kelas</th>
                             <th>Jurusan</th>
+                            <th>Tempat PKL</th>
                             <th>Absensi <br> Terverifikasi</th>
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>

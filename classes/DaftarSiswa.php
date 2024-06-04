@@ -16,6 +16,7 @@ class DaftarSiswa
 					ds.siswa_id,
 					ds.nama_lengkap as nama_siswa,
 					ds.jenis_kelamin,
+					ds.tempat_pkl,
 					ds.nis,
 					kel.nama_kelas,
 					jur.nama_jurusan,
@@ -39,6 +40,7 @@ class DaftarSiswa
 					ds.siswa_id,
 					ds.nama_lengkap,
 					ds.jenis_kelamin,
+					ds.tempat_pkl,
 					ds.nis,
 					kel.nama_kelas,
 					jur.nama_jurusan";
