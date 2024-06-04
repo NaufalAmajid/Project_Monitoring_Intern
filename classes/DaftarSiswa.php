@@ -14,6 +14,7 @@ class DaftarSiswa
 	{
 		$query = "select
 					ds.siswa_id,
+					ds.nilai,
 					ds.nama_lengkap as nama_siswa,
 					ds.jenis_kelamin,
 					ds.tempat_pkl,
@@ -39,6 +40,7 @@ class DaftarSiswa
 				group by
 					ds.siswa_id,
 					ds.nama_lengkap,
+					ds.nilai,
 					ds.jenis_kelamin,
 					ds.tempat_pkl,
 					ds.nis,
@@ -53,5 +55,33 @@ class DaftarSiswa
 		}
 
 		return $data;
+	}
+
+	public function addNilai($data, $where)
+	{
+		$db = DB::getInstance();
+		return $db->update('detail_siswa', $data, $where);
+	}
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	require_once '../config/database.php';
+	require_once '../classes/DB.php';
+
+	$daftarSiswa = new DaftarSiswa();
+	if ($_POST['action'] == 'addNilai') {
+		$data = [
+			'nilai' => $_POST['nilai']
+		];
+		$where = [
+			'siswa_id' => $_POST['siswa_id']
+		];
+
+		$result = $daftarSiswa->addNilai($data, $where);
+		if ($result > 0) {
+			echo 'success';
+		} else {
+			echo 'failed';
+		}
 	}
 }

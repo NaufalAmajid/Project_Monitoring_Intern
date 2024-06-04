@@ -42,7 +42,7 @@ $no = 1;
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
-                            <th>Skor</th>
+                            <th>Nilai</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,10 +60,7 @@ $no = 1;
                                 <td><?= $siswa['jumlah_logbook_verified'] ?></td>
                                 <td class="bg-danger"><?= $siswa['jumlah_logbook_unverified'] ?></td>
                                 <td>
-                                    <?php
-                                    $skor = $siswa['jumlah_absensi_verified'] + $siswa['jumlah_logbook_verified'];
-                                    echo $skor;
-                                    ?>
+                                    <input type="text" name="nilai_<?= $siswa['siswa_id'] ?>" id="nilai_<?= $siswa['siswa_id'] ?>" class="input-border-bottom" size="3" onchange="addNilai('<?= $siswa['siswa_id'] ?>', this)" value="<?= $siswa['nilai'] ?>">
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -81,7 +78,7 @@ $no = 1;
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
-                            <th>Skor</th>
+                            <th>Nilai</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -121,4 +118,36 @@ $no = 1;
             responsive: true
         });
     });
+
+    function addNilai(siswa_id, el) {
+        var nilai = $(el).val();
+        $.ajax({
+            url: 'classes/DaftarSiswa.php',
+            type: 'POST',
+            data: {
+                siswa_id: siswa_id,
+                nilai: nilai,
+                action: 'addNilai'
+            },
+            success: function(data) {
+                if (data == 'success') {
+                    notifier.show(
+                        'Sukses!',
+                        'Nilai berhasil ditambahkan.',
+                        'success',
+                        'assets/images/notification/ok-48.png',
+                        3000
+                    );
+                } else {
+                    notifier.show(
+                        'Gagal!',
+                        'Nilai gagal ditambahkan.',
+                        'danger',
+                        'assets/images/notification/high_priority-48.png',
+                        3000
+                    );
+                }
+            }
+        });
+    }
 </script>
