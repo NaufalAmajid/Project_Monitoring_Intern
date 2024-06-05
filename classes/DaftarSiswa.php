@@ -36,7 +36,7 @@ class DaftarSiswa
 				left join absensi abs on
 					ds.siswa_id = abs.siswa_id
 				where 
-					kel.pembimbing_id = 1
+					kel.pembimbing_id = $pembimbing_id
 				group by
 					ds.siswa_id,
 					ds.nama_lengkap,
