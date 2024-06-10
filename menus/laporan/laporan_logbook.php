@@ -18,7 +18,7 @@
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header table-card-header">
-            <h5>List Absensi <?= ucwords($_SESSION['nama']) ?></h5>
+            <h5>List Logbook <?= ucwords($_SESSION['nama']) ?></h5>
         </div>
         <div class="card-body">
             <div class="row mb-4">

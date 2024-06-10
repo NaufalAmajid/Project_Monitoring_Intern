@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2024 at 12:53 AM
+-- Generation Time: Jun 10, 2024 at 05:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -81,15 +81,17 @@ CREATE TABLE `detail_siswa` (
   `user_id` int(11) NOT NULL,
   `kelas_id` int(11) NOT NULL,
   `tempat_pkl` varchar(100) NOT NULL,
-  `nilai` int(11) NOT NULL
+  `nilai` int(11) NOT NULL,
+  `selesai_pkl` int(11) NOT NULL DEFAULT 0,
+  `laporan` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `detail_siswa`
 --
 
-INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`, `nilai`) VALUES
-(1, 'Kirigaya Kazuto', '08734213123', '00043523434', 'Laki-laki', 3, 1, 'Gayam', 80);
+INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`, `nilai`, `selesai_pkl`, `laporan`) VALUES
+(1, 'Kirigaya Kazuto', '08734213123', '00043523434', 'Laki-laki', 3, 1, 'Gayam', 86, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -249,7 +251,8 @@ INSERT INTO `submenu` (`submenu_id`, `nama_submenu`, `direktori`, `menu_id`) VAL
 ('SUB06', 'absensi', 'absensi', 'ME04'),
 ('SUB07', 'logbook', 'logbook', 'ME04'),
 ('SUB08', 'laporan absensi', 'laporan_absensi', 'ME08'),
-('SUB09', 'laporan logbook', 'laporan_logbook', 'ME08');
+('SUB09', 'laporan logbook', 'laporan_logbook', 'ME08'),
+('SUB10', 'laporan pkl', 'laporan_pkl', 'ME08');
 
 -- --------------------------------------------------------
 

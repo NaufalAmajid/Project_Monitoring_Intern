@@ -43,6 +43,7 @@ $no = 1;
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
+                            <th>Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>
                     </thead>
@@ -72,6 +73,13 @@ $no = 1;
                                 <td><?= $siswa['jumlah_logbook_verified'] ?></td>
                                 <td class="bg-danger"><?= $siswa['jumlah_logbook_unverified'] ?></td>
                                 <td>
+                                    <?php if (is_null($siswa['laporan'])) : ?>
+                                        <span class="badge badge-light-danger">Belum Mengumpulkan</span>
+                                    <?php else : ?>
+                                        <a href="lampiran/laporan/<?= $siswa['laporan'] ?>" target="_blank" class="badge badge-light-success"><?= $siswa['laporan'] ?></a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
                                     <input type="text" name="nilai_<?= $siswa['siswa_id'] ?>" id="nilai_<?= $siswa['siswa_id'] ?>" class="input-border-bottom" size="3" onchange="addNilai('<?= $siswa['siswa_id'] ?>', this)" value="<?= $siswa['nilai'] ?>">
                                 </td>
                             </tr>
@@ -91,6 +99,7 @@ $no = 1;
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
+                            <th>Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>
                     </tfoot>
@@ -189,6 +198,9 @@ $no = 1;
                                 'assets/images/notification/ok-48.png',
                                 3000
                             );
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
                         } else {
                             notifier.show(
                                 'Gagal!',

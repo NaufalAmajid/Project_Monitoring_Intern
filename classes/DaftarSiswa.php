@@ -20,6 +20,7 @@ class DaftarSiswa
 					ds.tempat_pkl,
 					ds.nis,
 					ds.selesai_pkl,
+					ds.laporan,
 					kel.nama_kelas,
 					jur.nama_jurusan,
 					count(case when abs.is_verified = 1 then abs.absensi_id end) as jumlah_absensi_verified,
@@ -46,6 +47,7 @@ class DaftarSiswa
 					ds.tempat_pkl,
 					ds.nis,
 					ds.selesai_pkl,
+					ds.laporan,
 					kel.nama_kelas,
 					jur.nama_jurusan";
 		$stmt = $this->conn->prepare($query);
@@ -89,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	if ($_POST['action'] == 'changeStatusPKL') {
 		$data = [
-			'selesai_pkl' => $_POST['status_pkl']
+			'selesai_pkl' => 1
 		];
 		$where = [
 			'siswa_id' => $_POST['siswa_id']
