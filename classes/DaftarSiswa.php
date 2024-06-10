@@ -19,6 +19,7 @@ class DaftarSiswa
 					ds.jenis_kelamin,
 					ds.tempat_pkl,
 					ds.nis,
+					ds.selesai_pkl,
 					kel.nama_kelas,
 					jur.nama_jurusan,
 					count(case when abs.is_verified = 1 then abs.absensi_id end) as jumlah_absensi_verified,
@@ -36,7 +37,7 @@ class DaftarSiswa
 				left join absensi abs on
 					ds.siswa_id = abs.siswa_id
 				where 
-					kel.pembimbing_id = 1
+					kel.pembimbing_id = $pembimbing_id
 				group by
 					ds.siswa_id,
 					ds.nama_lengkap,
@@ -44,6 +45,7 @@ class DaftarSiswa
 					ds.jenis_kelamin,
 					ds.tempat_pkl,
 					ds.nis,
+					ds.selesai_pkl,
 					kel.nama_kelas,
 					jur.nama_jurusan";
 		$stmt = $this->conn->prepare($query);
@@ -72,6 +74,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($_POST['action'] == 'addNilai') {
 		$data = [
 			'nilai' => $_POST['nilai']
+		];
+		$where = [
+			'siswa_id' => $_POST['siswa_id']
+		];
+
+		$result = $daftarSiswa->addNilai($data, $where);
+		if ($result > 0) {
+			echo 'success';
+		} else {
+			echo 'failed';
+		}
+	}
+
+	if ($_POST['action'] == 'changeStatusPKL') {
+		$data = [
+			'selesai_pkl' => $_POST['status_pkl']
 		];
 		$where = [
 			'siswa_id' => $_POST['siswa_id']

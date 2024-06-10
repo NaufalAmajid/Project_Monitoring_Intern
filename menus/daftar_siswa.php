@@ -38,6 +38,7 @@ $no = 1;
                             <th>Kelas</th>
                             <th>Jurusan</th>
                             <th>Tempat PKL</th>
+                            <th>Status PKL</th>
                             <th>Absensi <br> Terverifikasi</th>
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
@@ -55,6 +56,17 @@ $no = 1;
                                 <td><?= $siswa['nama_kelas'] ?></td>
                                 <td><?= $siswa['nama_jurusan'] ?></td>
                                 <td><?= $siswa['tempat_pkl'] ?></td>
+                                <td>
+                                    <?php if ($siswa['selesai_pkl'] == 1) : ?>
+                                        <span class="badge badge-light-success">PKL Telah Selesai</span>
+                                    <?php else : ?>
+                                        <span class="badge badge-light-danger">PKL Belum Selesai</span>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input input-success" type="checkbox" id="status_pkl_<?= $siswa['siswa_id'] ?>" onchange="changeStatusPKL('<?= $siswa['siswa_id'] ?>')">
+                                            <label class="form-check-label" for="status_pkl_<?= $siswa['siswa_id'] ?>">checklist disini untuk merubah status pkl siswa</label>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= $siswa['jumlah_absensi_verified'] ?></td>
                                 <td class="bg-danger"><?= $siswa['jumlah_absensi_unverified'] ?></td>
                                 <td><?= $siswa['jumlah_logbook_verified'] ?></td>
@@ -74,6 +86,7 @@ $no = 1;
                             <th>Kelas</th>
                             <th>Jurusan</th>
                             <th>Tempat PKL</th>
+                            <th>Status PKL</th>
                             <th>Absensi <br> Terverifikasi</th>
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
@@ -147,6 +160,48 @@ $no = 1;
                         3000
                     );
                 }
+            }
+        });
+    }
+
+    function changeStatusPKL(siswa_id) {
+        swal({
+            title: "Apakah anda yakin?",
+            text: "Setelah diubah, status PKL siswa tidak dapat dikembalikan lagi!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((responsSwal) => {
+            if (responsSwal) {
+                $.ajax({
+                    url: 'classes/DaftarSiswa.php',
+                    type: 'POST',
+                    data: {
+                        siswa_id: siswa_id,
+                        action: 'changeStatusPKL'
+                    },
+                    success: function(data) {
+                        if (data == 'success') {
+                            notifier.show(
+                                'Sukses!',
+                                'Status PKL berhasil diubah.',
+                                'success',
+                                'assets/images/notification/ok-48.png',
+                                3000
+                            );
+                        } else {
+                            notifier.show(
+                                'Gagal!',
+                                'Status PKL gagal diubah.',
+                                'danger',
+                                'assets/images/notification/high_priority-48.png',
+                                3000
+                            );
+                        }
+                    }
+                });
+            } else {
+                location.reload();
             }
         });
     }
