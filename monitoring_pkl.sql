@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2024 at 05:12 PM
+-- Generation Time: Jun 23, 2024 at 05:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -81,17 +81,20 @@ CREATE TABLE `detail_siswa` (
   `user_id` int(11) NOT NULL,
   `kelas_id` int(11) NOT NULL,
   `tempat_pkl` varchar(100) NOT NULL,
+  `pimpinan_pkl` varchar(100) NOT NULL,
   `nilai` int(11) NOT NULL,
   `selesai_pkl` int(11) NOT NULL DEFAULT 0,
-  `laporan` text DEFAULT NULL
+  `laporan` text DEFAULT NULL,
+  `verif_laporan` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `detail_siswa`
 --
 
-INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`, `nilai`, `selesai_pkl`, `laporan`) VALUES
-(1, 'Kirigaya Kazuto', '08734213123', '00043523434', 'Laki-laki', 3, 1, 'Gayam', 86, 0, NULL);
+INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`, `pimpinan_pkl`, `nilai`, `selesai_pkl`, `laporan`, `verif_laporan`) VALUES
+(1, 'Kirigaya Kazuto', '08734213123', '00043523434', 'Laki-laki', 3, 1, 'Gayam', 'Adi Saputra', 79, 1, 'Laporan PKL_Kirigaya Kazuto(00043523434).docx', 1),
+(2, 'obito uchiha', '0823134234', '00043523434', 'Laki-laki', 4, 1, 'Boyolali', 'Madara', 0, 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -205,7 +208,7 @@ INSERT INTO `menu` (`menu_id`, `nama_menu`, `direktori`) VALUES
 ('ME05', 'absensi', 'absensi'),
 ('ME06', 'logbook', 'logbook'),
 ('ME07', 'daftar siswa', 'daftar_siswa'),
-('ME08', 'laporan', 'laporan');
+('ME08', 'laporan pkl', 'laporan_pkl');
 
 -- --------------------------------------------------------
 
@@ -249,10 +252,7 @@ INSERT INTO `submenu` (`submenu_id`, `nama_submenu`, `direktori`, `menu_id`) VAL
 ('SUB03', 'pembimbing', 'pembimbing', 'ME01'),
 ('SUB04', 'siswa', 'siswa', 'ME01'),
 ('SUB06', 'absensi', 'absensi', 'ME04'),
-('SUB07', 'logbook', 'logbook', 'ME04'),
-('SUB08', 'laporan absensi', 'laporan_absensi', 'ME08'),
-('SUB09', 'laporan logbook', 'laporan_logbook', 'ME08'),
-('SUB10', 'laporan pkl', 'laporan_pkl', 'ME08');
+('SUB07', 'logbook', 'logbook', 'ME04');
 
 -- --------------------------------------------------------
 
@@ -276,7 +276,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `username`, `password`, `status_user_id`, `email`, `is_active`) VALUES
 (1, 'admin', '202cb962ac59075b964b07152d234b70', 1, 'admin@admin.com', 1),
 (2, 'natsu', '202cb962ac59075b964b07152d234b70', 2, 'natsu@gmail.com', 1),
-(3, 'kirito', '202cb962ac59075b964b07152d234b70', 3, 'kirito@gmail.com', 1);
+(3, 'kirito', '202cb962ac59075b964b07152d234b70', 3, 'kirito@gmail.com', 1),
+(4, 'tobi', '202cb962ac59075b964b07152d234b70', 3, 'obitouchiha@gmail.com', 1);
 
 --
 -- Indexes for dumped tables
@@ -378,7 +379,7 @@ ALTER TABLE `detail_pembimbing`
 -- AUTO_INCREMENT for table `detail_siswa`
 --
 ALTER TABLE `detail_siswa`
-  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `hak_akses_menu`
@@ -402,7 +403,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `logbook`
 --
 ALTER TABLE `logbook`
-  MODIFY `logbook_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `logbook_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `status_user`
@@ -414,7 +415,7 @@ ALTER TABLE `status_user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

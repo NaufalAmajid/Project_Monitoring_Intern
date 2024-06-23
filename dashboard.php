@@ -144,7 +144,7 @@ $func = new Functions();
                                 </ul>
                             </li>
                         <?php else : ?>
-                            <li class="nav-item <?= isset($_GET['page']) && $_GET['page'] == $menus['nama_menu'] ? 'active' : '' ?>"><a href="?page=<?= $menus['direktori'] ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext"><?= ucwords($menus['nama_menu']) ?></span></a></li>
+                            <li class="nav-item <?= isset($_GET['page']) && $_GET['page'] == $menus['direktori'] ? 'active' : '' ?>"><a href="?page=<?= $menus['direktori'] ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext"><?= ucwords($menus['nama_menu']) ?></span></a></li>
                         <?php endif; ?>
                     <?php endforeach; ?>
                     <li class="nav-item"><a href="#" onclick="Logout()" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Keluar</span></a></li>

@@ -18,9 +18,11 @@ class DaftarSiswa
 					ds.nama_lengkap as nama_siswa,
 					ds.jenis_kelamin,
 					ds.tempat_pkl,
+					ds.pimpinan_pkl,
 					ds.nis,
 					ds.selesai_pkl,
 					ds.laporan,
+					ds.verif_laporan,
 					kel.nama_kelas,
 					jur.nama_jurusan,
 					count(case when abs.is_verified = 1 then abs.absensi_id end) as jumlah_absensi_verified,
@@ -45,9 +47,11 @@ class DaftarSiswa
 					ds.nilai,
 					ds.jenis_kelamin,
 					ds.tempat_pkl,
+					ds.pimpinan_pkl,
 					ds.nis,
 					ds.selesai_pkl,
 					ds.laporan,
+					ds.verif_laporan,
 					kel.nama_kelas,
 					jur.nama_jurusan";
 		$stmt = $this->conn->prepare($query);
@@ -92,6 +96,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($_POST['action'] == 'changeStatusPKL') {
 		$data = [
 			'selesai_pkl' => 1
+		];
+		$where = [
+			'siswa_id' => $_POST['siswa_id']
+		];
+
+		$result = $daftarSiswa->addNilai($data, $where);
+		if ($result > 0) {
+			echo 'success';
+		} else {
+			echo 'failed';
+		}
+	}
+	
+	if ($_POST['action'] == 'verifLaporan') {
+		$data = [
+			'verif_laporan' => 1
 		];
 		$where = [
 			'siswa_id' => $_POST['siswa_id']

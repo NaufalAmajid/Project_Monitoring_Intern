@@ -43,6 +43,7 @@ class User
                     ds.nis,
                     ds.jenis_kelamin,
                     ds.tempat_pkl,
+                    ds.pimpinan_pkl,
                     kel.nama_kelas,
                     jur.nama_jurusan,
                     dp.nama_lengkap as nama_pembimbing

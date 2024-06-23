@@ -71,16 +71,22 @@ if ($siswa_id != 0) {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label" for="nis">Nis</label>
                             <input type="text" class="form-control" name="nis" id="nis" value="<?= $siswa_id != 0 ? $detailSiswa['nis'] : '' ?>" placeholder="Masukkan nis ...">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label" for="tempat_pkl">Tempat PKL</label>
                             <input type="text" class="form-control" name="tempat_pkl" id="tempat_pkl" value="<?= $siswa_id != 0 ? $detailSiswa['tempat_pkl'] : '' ?>" placeholder="Masukkan tempat pkl ...">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label" for="pimpinan_pkl">Pimpinan PKL</label>
+                            <input type="text" class="form-control" name="pimpinan_pkl" id="pimpinan_pkl" value="<?= $siswa_id != 0 ? $detailSiswa['pimpinan_pkl'] : '' ?>" placeholder="Masukkan pemimpin pkl ...">
                         </div>
                     </div>
                 </div>

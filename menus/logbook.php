@@ -65,13 +65,9 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
                             <label class="form-label" for="catatan-kegiatan">Catatan</label>
                             <textarea class="form-control" id="catatan-kegiatan" onchange="cekCatatan()" rows="10"></textarea>
                         </div>
-                        <div class="col-sm-5 mt-4">
-                            <div class="form-group">
-                                <center>
-                                    <img src="assets/images/image-placeholder.jpg" onclick="triggerClick(this)" alt="image-placeholder" id="image-placeholder" class="img-thumbnail">
-                                </center>
-                                <input type="file" class="form-control d-none" onchange="displayImage(this)" id="foto" name="foto">
-                            </div>
+                        <div class="col-sm-5">
+                            <label class="form-label" for="foto">Lampiran</label>
+                            <input type="file" class="form-control" id="foto" onchange="cekCatatan()" name="foto" multiple>
                         </div>
                     </div>
                     <div class="row mb-4">
@@ -107,33 +103,12 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
         $('#btn-search-logbook').click();
     });
 
-    function triggerClick(e) {
-        document.querySelector('#foto').click();
-    }
-
-    function displayImage(e) {
-        if (e.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.querySelector('#image-placeholder').setAttribute('src', e.target.result);
-            }
-            reader.readAsDataURL(e.files[0]);
-            let catatan = $('#catatan-kegiatan').val();
-            let status_logbook = $('#status_logbook').val();
-            if (status_logbook == 'add') {
-                if (catatan != '') {
-                    $('#btn-logbook').attr('disabled', false);
-                }
-            }
-        }
-    }
-
     function cekCatatan() {
         let catatan = $('#catatan-kegiatan').val();
-        let foto = $('#foto').prop('files')[0];
+        let foto = $('#foto').prop('files');
         let status_logbook = $('#status_logbook').val();
         if (status_logbook == 'add') {
-            if (catatan != '' && foto != undefined) {
+            if (catatan != '' && foto.length > 0) {
                 $('#btn-logbook').attr('disabled', false);
             } else {
                 $('#btn-logbook').attr('disabled', true);
@@ -142,15 +117,19 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
     }
 
     function logBook(status, logbook_id = '', lampiran_lama = '') {
-        let foto = $('#foto').prop('files')[0];
+        let foto = $('#foto').prop('files');
         let catatan = $('#catatan-kegiatan').val();
         let form_data = new FormData();
-        form_data.append('foto', foto);
+        for(let i = 0; i < foto.length; i++) {
+            form_data.append('foto[]', foto[i]);
+        }
         form_data.append('action', `writeLogbook`);
         form_data.append('catatan', catatan);
         form_data.append('logbook_id', logbook_id);
         form_data.append('lampiran_lama', lampiran_lama);
         form_data.append('status', status);
+        // console.log(AllFiles);
+        // return;
         $.ajax({
             url: 'classes/Logbook.php',
             method: 'POST',
@@ -159,17 +138,17 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
             cache: false,
             processData: false,
             success: function(response) {
-                // console.log(response);
-                let res = JSON.parse(response);
-                swal({
-                    title: res.title,
-                    text: res.message,
-                    icon: res.status,
-                    button: false,
-                    timer: 2000
-                }).then(() => {
-                    location.reload();
-                })
+                console.log(response);
+                // let res = JSON.parse(response);
+                // swal({
+                //     title: res.title,
+                //     text: res.message,
+                //     icon: res.status,
+                //     button: false,
+                //     timer: 2000
+                // }).then(() => {
+                //     location.reload();
+                // })
             }
         });
     }

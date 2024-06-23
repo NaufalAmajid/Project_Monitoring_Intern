@@ -85,6 +85,7 @@ class Siswa
                     ds.nis,
                     ds.jenis_kelamin,
                     ds.tempat_pkl,
+                    ds.pimpinan_pkl,
                     kel.nama_kelas,
                     kel.kelas_id,
                     jur.nama_jurusan,
@@ -152,7 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             "jenis_kelamin" => $_POST['jenis_kelamin'],
             "user_id" => $user_id,
             "kelas_id" => $_POST['kelas_id'],
-            "tempat_pkl" => $_POST['tempat_pkl']
+            "tempat_pkl" => $_POST['tempat_pkl'],
+            "pimpinan_pkl" => $_POST['pimpinan_pkl'],
         ];
 
         $result = $siswa->addSiswa($dataSiswa);
@@ -183,7 +185,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             "nis" => $_POST['nis'],
             "jenis_kelamin" => $_POST['jenis_kelamin'],
             "kelas_id" => $_POST['kelas_id'],
-            "tempat_pkl" => $_POST['tempat_pkl']
+            "tempat_pkl" => $_POST['tempat_pkl'],
+            "pimpinan_pkl" => $_POST['pimpinan_pkl'],
         ];
 
         $whereSiswa = [

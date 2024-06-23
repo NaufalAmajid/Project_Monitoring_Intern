@@ -46,6 +46,7 @@ $siswa = $siswa->getAllSiswa();
                             <th>Jurusan</th>
                             <th>Nama Pembimbing</th>
                             <th>Tempat PKL</th>
+                            <th>Pimpinan PKL</th>
                             <th>#</th>
                         </tr>
                     </thead>
@@ -65,6 +66,7 @@ $siswa = $siswa->getAllSiswa();
                                 <td><?= $sis['nama_jurusan'] ?></td>
                                 <td><?= $sis['nama_pembimbing'] ?></td>
                                 <td><?= $sis['tempat_pkl'] ?></td>
+                                <td><?= $sis['pimpinan_pkl'] ?></td>
                                 <td>
                                     <button type="button" class="btn btn-icon btn-rounded btn-outline-primary" onclick="editSiswa('<?= $sis['siswa_id'] ?>')"><i class="feather icon-edit"></i></button>
                                     <button type="button" class="btn btn-icon btn-rounded btn-outline-danger" onclick="removeSiswa('<?= $sis['user_id'] ?>')"><i class="feather icon-trash"></i></button>
@@ -84,6 +86,7 @@ $siswa = $siswa->getAllSiswa();
                             <th>Jurusan</th>
                             <th>Nama Pembimbing</th>
                             <th>Tempat PKL</th>
+                            <th>Pimpinan PKL</th>
                             <th>#</th>
                         </tr>
                     </tfoot>

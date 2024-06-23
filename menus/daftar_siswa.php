@@ -38,12 +38,14 @@ $no = 1;
                             <th>Kelas</th>
                             <th>Jurusan</th>
                             <th>Tempat PKL</th>
+                            <th>Pimpinan PKL</th>
                             <th>Status PKL</th>
                             <th>Absensi <br> Terverifikasi</th>
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
                             <th>Laporan PKL</th>
+                            <th>Verifikasi Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>
                     </thead>
@@ -57,6 +59,7 @@ $no = 1;
                                 <td><?= $siswa['nama_kelas'] ?></td>
                                 <td><?= $siswa['nama_jurusan'] ?></td>
                                 <td><?= $siswa['tempat_pkl'] ?></td>
+                                <td><?= $siswa['pimpinan_pkl'] ?></td>
                                 <td>
                                     <?php if ($siswa['selesai_pkl'] == 1) : ?>
                                         <span class="badge badge-light-success">PKL Telah Selesai</span>
@@ -80,6 +83,21 @@ $no = 1;
                                     <?php endif; ?>
                                 </td>
                                 <td>
+                                    <?php if (is_null($siswa['laporan'])) : ?>
+                                        <span class="badge badge-light-warning">Tunda Verifikasi</span>
+                                    <?php else : ?>
+                                        <?php if ($siswa['verif_laporan'] == 1) : ?>
+                                            <span class="badge badge-light-success">Terverifikasi</span>
+                                        <?php else : ?>
+                                            <span class="badge badge-light-danger">Belum Terverifikasi</span>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input input-success" type="checkbox" id="verif_laporan_<?= $siswa['siswa_id'] ?>" onchange="verifLaporan('<?= $siswa['siswa_id'] ?>')">
+                                                <label class="form-check-label" for="verif_laporan_<?= $siswa['siswa_id'] ?>">checklist disini untuk melakukan verifikasi laporan</label>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
                                     <input type="text" name="nilai_<?= $siswa['siswa_id'] ?>" id="nilai_<?= $siswa['siswa_id'] ?>" class="input-border-bottom" size="3" onchange="addNilai('<?= $siswa['siswa_id'] ?>', this)" value="<?= $siswa['nilai'] ?>">
                                 </td>
                             </tr>
@@ -94,12 +112,14 @@ $no = 1;
                             <th>Kelas</th>
                             <th>Jurusan</th>
                             <th>Tempat PKL</th>
+                            <th>Pimpinan PKL</th>
                             <th>Status PKL</th>
                             <th>Absensi <br> Terverifikasi</th>
                             <th>Absensi <br> Belum Diverifikasi</th>
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
                             <th>Laporan PKL</th>
+                            <th>Verifikasi Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>
                     </tfoot>
@@ -205,6 +225,51 @@ $no = 1;
                             notifier.show(
                                 'Gagal!',
                                 'Status PKL gagal diubah.',
+                                'danger',
+                                'assets/images/notification/high_priority-48.png',
+                                3000
+                            );
+                        }
+                    }
+                });
+            } else {
+                location.reload();
+            }
+        });
+    }
+
+    function verifLaporan(siswa_id) {
+        swal({
+            title: "Apakah anda yakin?",
+            text: "Setelah diverifikasi, laporan PKL siswa tidak dapat dikembalikan lagi",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((responsSwal) => {
+            if (responsSwal) {
+                $.ajax({
+                    url: 'classes/DaftarSiswa.php',
+                    type: 'POST',
+                    data: {
+                        siswa_id: siswa_id,
+                        action: 'verifLaporan'
+                    },
+                    success: function(data) {
+                        if (data == 'success') {
+                            notifier.show(
+                                'Sukses!',
+                                'Laporan PKL berhasil diverifikasi',
+                                'success',
+                                'assets/images/notification/ok-48.png',
+                                3000
+                            );
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        } else {
+                            notifier.show(
+                                'Gagal!',
+                                'Laporan PKL gagal diverifikasi',
                                 'danger',
                                 'assets/images/notification/high_priority-48.png',
                                 3000

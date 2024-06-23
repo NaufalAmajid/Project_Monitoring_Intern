@@ -156,6 +156,7 @@ $colors = ['primary', 'success', 'danger', 'warning', 'info', 'dark'];
         <h5>Jurusan <?= ucwords($siswa['nama_jurusan']) ?> Kelas <?= ucwords($siswa['nama_kelas']) ?></h5>
         <h6>Nama Pembimbing <?= ucwords($siswa['nama_pembimbing']) ?></h6>
         <h6>Tempat PKL <?= ucwords($siswa['tempat_pkl']) ?></h6>
+        <h6>diPimpin Oleh <?= ucwords($siswa['pimpinan_pkl']) ?></h6>
     </center>
 <?php endif; ?>
 <!-- [ Main Content ] end -->

@@ -154,13 +154,19 @@ $user = new User();
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
+                        <div class="col-md-4 col-sm-12 mb-3">
                             <div class="mb-3">
                                 <label class="form-label" for="tempat_pkl">Tempat PKL</label>
                                 <input type="text" name="tempat_pkl" class="form-control" id="tempat_pkl" value="<?= $siswa['tempat_pkl'] ?>" readonly disabled>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
+                        <div class="col-md-4 col-sm-12 mb-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="pimpinan_pkl">Pimpinan PKL</label>
+                                <input type="text" name="pimpinan_pkl" class="form-control" id="pimpinan_pkl" value="<?= $siswa['pimpinan_pkl'] ?>" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 mb-3">
                             <div class="mb-3">
                                 <label class="form-label" for="nama_pembimbing">Pembimbing</label>
                                 <input type="text" name="nama_pembimbing" class="form-control" id="nama_pembimbing" value="<?= $siswa['nama_pembimbing'] ?>" readonly disabled>

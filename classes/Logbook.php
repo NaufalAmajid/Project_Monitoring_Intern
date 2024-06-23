@@ -78,44 +78,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ];
 
         if (isset($_FILES['foto'])) {
-
-            if ($_POST['lampiran_lama'] != '') {
-                unlink('../lampiran/logbook/' . $_POST['lampiran_lama']);
+            $foto_destination = '../lampiran/logbook/';
+            if (!is_dir($foto_destination)) {
+                mkdir($foto_destination, 0777, true);
             }
-
-            $foto    = $_FILES['foto'];
-
-            // File handling
-            $foto_name          = $foto['name'];
-            $foto_tmp           = $foto['tmp_name'];
-            $foto_size          = $foto['size'];
-            $foto_error         = $foto['error'];
-
-            $foto_ext           = explode('.', $foto_name);
-            $foto_actual_ext    = strtolower(end($foto_ext));
-
-            $allowed            = ['jpg', 'jpeg', 'png'];
-
-            if (in_array($foto_actual_ext, $allowed)) {
-                if ($foto_error === 0) {
-                    if ($foto_size < 1000000) {
-                        $foto_name_new = $_SESSION['the_id'] . '_' . date('YmdHis') . '.' . $foto_actual_ext;
-                        $foto_destination = '../lampiran/logbook/' . $foto_name_new;
+            $errors = [];
+            $newFotos = [];
+            $fotos = $_FILES['foto'];
+            foreach ($fotos['name'] as $key => $filename) {
+                $fileTmp        = $fotos['tmp_name'][$key];
+                $fileType       = $fotos['type'][$key];
+                $fileSize       = $fotos['size'][$key];
+                $fileError      = $fotos['error'][$key];
+                $fileExt        = explode('.', $filename);
+                $fileActualExt  = strtolower(end($fileExt));
+                $fileAllowed    = ['jpg', 'jpeg', 'png'];
+                if (in_array($fileActualExt, $fileAllowed)) {
+                    if ($fileError === 0) {
+                        if ($fileSize < 1000000) {
+                            $fileNewName = $_SESSION['the_id'] . '_' . date('YmdHis') . '_' . $key . '.' . $fileActualExt;
+                            $fileDestination = $foto_destination . $fileNewName;
+                            $newFotos[] = [
+                                'name' => $fileNewName,
+                                'tmp' => $fileTmp,
+                                'destination' => $fileDestination
+                            ];
+                        } else {
+                            $errors[] = 'Ukuran file terlalu besar! Max 1MB!';
+                        }
                     } else {
-                        echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Ukuran file terlalu besar! Max 1MB!']);
-                        exit();
+                        $errors[] = 'Terjadi kesalahan saat upload file!';
                     }
                 } else {
-                    echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Terjadi kesalahan saat upload file!']);
-                    exit();
+                    $errors[] = $filename . ' Format file tidak didukung! Hanya JPG, JPEG, PNG!';
                 }
-            } else {
-                echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Format file tidak didukung! Hanya JPG, JPEG, PNG!']);
-                exit();
             }
-
-            $dataInsert['lampiran'] = $foto_name_new;
+        } else {
+            echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Lampiran tidak boleh kosong!']);
+            exit();
         }
+
+        echo json_encode($newFotos);
+        exit();
 
         if ($_POST['status'] == 'add') {
             $save = $logbook->addLogbook($dataInsert);

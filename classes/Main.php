@@ -90,6 +90,7 @@ class Main
                     ds.nis,
                     ds.jenis_kelamin,
                     ds.tempat_pkl,
+                    ds.pimpinan_pkl,
                     kel.nama_kelas,
                     kel.kelas_id,
                     jur.nama_jurusan,
