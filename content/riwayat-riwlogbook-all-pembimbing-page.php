@@ -22,11 +22,11 @@ $no = 1;
         <td><?= $func->dateIndonesia($all['hari']) . ' ' . $all['jam'] ?></td>
         <td><textarea rows="3" readonly><?= $all['catatan'] ?></textarea></td>
         <td>
-            <?php if ($all['lampiran'] != '') : ?>
-                <a href="lampiran/logbook/<?= $all['lampiran'] ?>" target="_blank">Lihat Lampiran</a>
-            <?php else : ?>
-                -
-            <?php endif; ?>
+            <?php
+            $lampirans = json_decode($all['lampiran'], true);
+            $lampiran = implode('#', $lampirans);
+            ?>
+            <button type="button" class="btn btn-icon btn-rounded btn-outline-secondary" onclick="showModalLampiran('<?= $lampiran ?>')"><i class="feather icon-camera"></i></button>
         </td>
         <td>
             <div class="form-check form-switch custom-switch-v1 mb-2">

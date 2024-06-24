@@ -102,6 +102,28 @@ $func = new Functions();
             display: flex;
             justify-content: space-between;
         }
+
+        .btn-delete-lampiran {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            border-radius: 100%;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border: none;
+        }
+
+        .btn-delete-lampiran i {
+            font-size: 10px;
+            color: #fff;
+            /* center */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 

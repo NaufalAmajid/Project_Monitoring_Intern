@@ -22,11 +22,11 @@ $no = 1;
         <td><?= $func->dateIndonesia($unverif['hari']) . ' ' . $unverif['jam'] ?></td>
         <td><textarea rows="3" readonly><?= $unverif['catatan'] ?></textarea></td>
         <td>
-            <?php if ($unverif['lampiran'] != '') : ?>
-                <a href="lampiran/logbook/<?= $unverif['lampiran'] ?>" target="_blank">Lihat Lampiran</a>
-            <?php else : ?>
-                -
-            <?php endif; ?>
+            <?php
+            $lampirans = json_decode($unverif['lampiran'], true);
+            $lampiran = implode('#', $lampirans);
+            ?>
+            <button type="button" class="btn btn-icon btn-rounded btn-outline-secondary" onclick="showModalLampiran('<?= $lampiran ?>')"><i class="feather icon-camera"></i></button>
         </td>
         <td>
             <div class="form-check form-switch custom-switch-v1 mb-2">

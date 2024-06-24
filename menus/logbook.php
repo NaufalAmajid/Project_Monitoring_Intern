@@ -45,18 +45,30 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
                             <textarea class="form-control" aria-describedby="catatan" id="catatan-kegiatan" onchange="cekCatatan()" rows="10"><?= $logbook['catatan'] ?></textarea>
                             <small id="catatan" class="form-text">*anda masih bisa melakukan edit untuk pengisian logbook dihari yang sama <br><span class="text-warning">Catatan : <b>waktu pengupdatean akan selalu terekam.</b></span></small>
                         </div>
-                        <div class="col-sm-5 mt-4">
-                            <div class="form-group">
-                                <center>
-                                    <img src="lampiran/logbook/<?= $logbook['lampiran'] ?>" onclick="triggerClick(this)" alt="image-placeholder" id="image-placeholder" class="img-thumbnail">
-                                </center>
-                                <input type="file" class="form-control d-none" onchange="displayImage(this)" id="foto" name="foto">
+                        <div class="col-sm-5">
+                            <label class="form-label" for="foto">Lampiran</label>
+                            <input type="file" class="form-control" id="foto" onchange="cekCatatan()" name="foto" multiple>
+                            <div class="mt-3">
+                                <?php
+                                $lampirans = json_decode($logbook['lampiran'], true);
+                                ?>
+                                <!-- create gap 2 with bottom 'X' on top image -->
+                                <div class="row">
+                                    <?php foreach ($lampirans as $lampiran) : ?>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="position-relative">
+                                                <img src="lampiran/logbook/<?= $lampiran ?>" class="img-thumbnail" alt="lampiran" style="width: 100%; height: 100px;">
+                                                <button class="btn-delete-lampiran" onclick="deleteLampiran('<?= $lampiran ?>', '<?= $logbook['logbook_id'] ?>')"><i class="feather icon-x"></i></button>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
-                            <button class="btn btn-secondary col-md-12" id="btn-logbook" onclick="logBook('edit', '<?= $logbook['logbook_id'] ?>', '<?= $logbook['lampiran'] ?>')">Update</button>
+                            <button class="btn btn-secondary col-md-12" id="btn-logbook" onclick="logBook('edit', '<?= $logbook['logbook_id'] ?>')">Update</button>
                         </div>
                     </div>
                 <?php else : ?>
@@ -68,6 +80,7 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
                         <div class="col-sm-5">
                             <label class="form-label" for="foto">Lampiran</label>
                             <input type="file" class="form-control" id="foto" onchange="cekCatatan()" name="foto" multiple>
+                            <small class="form-text text-info">*anda dapat langsung melakukan upload beberapa file.</small>
                         </div>
                     </div>
                     <div class="row mb-4">
@@ -116,20 +129,17 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
         }
     }
 
-    function logBook(status, logbook_id = '', lampiran_lama = '') {
+    function logBook(status, logbook_id = '') {
         let foto = $('#foto').prop('files');
         let catatan = $('#catatan-kegiatan').val();
         let form_data = new FormData();
-        for(let i = 0; i < foto.length; i++) {
+        for (let i = 0; i < foto.length; i++) {
             form_data.append('foto[]', foto[i]);
         }
         form_data.append('action', `writeLogbook`);
         form_data.append('catatan', catatan);
         form_data.append('logbook_id', logbook_id);
-        form_data.append('lampiran_lama', lampiran_lama);
         form_data.append('status', status);
-        // console.log(AllFiles);
-        // return;
         $.ajax({
             url: 'classes/Logbook.php',
             method: 'POST',
@@ -138,17 +148,18 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
             cache: false,
             processData: false,
             success: function(response) {
-                console.log(response);
-                // let res = JSON.parse(response);
-                // swal({
-                //     title: res.title,
-                //     text: res.message,
-                //     icon: res.status,
-                //     button: false,
-                //     timer: 2000
-                // }).then(() => {
-                //     location.reload();
-                // })
+                let res = JSON.parse(response);
+                swal({
+                    title: res.title,
+                    text: res.message,
+                    icon: res.status,
+                }).then(() => {
+                    if (res.status == 'success') {
+                        location.reload();
+                    } else {
+                        $('#foto').val('');
+                    }
+                })
             }
         });
     }
@@ -170,5 +181,41 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
                 $('#list-logbook').html(response);
             }
         });
+    }
+
+    function deleteLampiran(lampiran, logbook_id) {
+        swal({
+            title: "Apakah anda yakin?",
+            text: "Lampiran akan dihapus.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((deleted) => {
+            if (deleted) {
+                $.ajax({
+                    url: 'classes/Logbook.php',
+                    type: 'post',
+                    data: {
+                        lampiran: lampiran,
+                        logbook_id: logbook_id,
+                        action: 'deleteLampiran'
+                    },
+                    success: function(response) {
+                        let res = JSON.parse(response);
+                        notifier.show(
+                            `${res.title}`,
+                            `${res.message}`,
+                            `${res.status}`,
+                            `${res.icon}`,
+                            2000
+                        );
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                    }
+                });
+            }
+        });
+
     }
 </script>

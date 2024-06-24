@@ -38,7 +38,18 @@ $func = new Functions();
                             <p><?= $log['catatan'] ?></p>
                         </div>
                         <div class="col-lg-6 mb-3">
-                            <img src="lampiran/logbook/<?= $log['lampiran'] ?>" id="image-placeholder" class="img-thumbnail">
+                            <div class="row">
+                                <?php
+                                $lampirans = json_decode($log['lampiran']);
+                                ?>
+                                <?php foreach ($lampirans as $lampiran) : ?>
+                                    <div class="col-lg-4 mb-3">
+                                        <a href="lampiran/logbook/<?= $lampiran ?>" target="_blank">
+                                            <img src="lampiran/logbook/<?= $lampiran ?>" class="img-thumbnail" alt="lampiran" style="width: 100%; height: 100px;">
+                                        </a>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

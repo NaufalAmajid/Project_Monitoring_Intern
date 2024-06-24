@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2024 at 05:56 PM
+-- Generation Time: Jun 24, 2024 at 04:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -183,7 +183,8 @@ CREATE TABLE `logbook` (
 --
 
 INSERT INTO `logbook` (`logbook_id`, `catatan`, `lampiran`, `created_at`, `is_verified`, `siswa_id`) VALUES
-(1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', '1_20240604220827.jpg', '2024-06-04 22:08:27', 0, 1);
+(1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', '1_20240604220827.jpg', '2024-06-04 22:08:27', 0, 1),
+(4, 'Aenean molestie massa at orci pulvinar, sed sodales ex lobortis. Donec fringilla mollis aliquam.', '[\"1_20240624201925_0.jpg\",\"1_20240624201925_1.jpg\"]', '2024-06-24 20:19:42', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -403,7 +404,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `logbook`
 --
 ALTER TABLE `logbook`
-  MODIFY `logbook_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `logbook_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `status_user`

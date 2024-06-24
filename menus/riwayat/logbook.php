@@ -35,7 +35,7 @@ $riwayatLogbook = new RiwayatLogbook();
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="today">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped" id="table-riwlogbook-today">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -64,11 +64,11 @@ $riwayatLogbook = new RiwayatLogbook();
                                             <td><?= $func->dateIndonesia($today['hari']) . ' ' . $today['jam'] ?></td>
                                             <td><textarea rows="3" readonly><?= $today['catatan'] ?></textarea></td>
                                             <td>
-                                                <?php if ($today['lampiran'] != '') : ?>
-                                                    <a href="lampiran/logbook/<?= $today['lampiran'] ?>" target="_blank">Lihat Lampiran</a>
-                                                <?php else : ?>
-                                                    -
-                                                <?php endif; ?>
+                                                <?php
+                                                $lampirans = json_decode($today['lampiran'], true);
+                                                $lampiran = implode('#', $lampirans);
+                                                ?>
+                                                <button type="button" class="btn btn-icon btn-rounded btn-outline-secondary" onclick="showModalLampiran('<?= $lampiran ?>')"><i class="feather icon-camera"></i></button>
                                             </td>
                                             <td>
                                                 <div class="form-check form-switch custom-switch-v1 mb-2">
@@ -153,9 +153,33 @@ $riwayatLogbook = new RiwayatLogbook();
         </div>
     </div>
 </div>
+<div id="modal-show-lampiran-logbook" class="modal fade modal-lg"></div>
 <script>
     $(document).ready(function() {
         $('#btn-search-riwlogbook-unverif, #btn-search-riwlogbook-all').click();
+        $('#table-riwlogbook-today').DataTable({
+            paging: true,
+            searching: true,
+            info: true,
+            dom: 'Bfrtip',
+            buttons: [{
+                    extend: 'excel',
+                    text: 'Excel',
+                    title: 'Data Riwayat Logbook Siswa Hari Ini',
+
+                },
+                {
+                    extend: 'pdf',
+                    text: 'PDF',
+                    title: 'Data Riwayat Logbook Siswa Hari Ini',
+                },
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    title: 'Data Riwayat Logbook Siswa Hari Ini',
+                }
+            ]
+        });
     });
 
     function verifLogbook(logbook_id) {
@@ -269,6 +293,20 @@ $riwayatLogbook = new RiwayatLogbook();
                         }
                     ]
                 });
+            }
+        });
+    }
+
+    function showModalLampiran(lampiran) {
+        $.ajax({
+            url: 'content/modal-show-lampiran-logbook.php',
+            type: 'post',
+            data: {
+                lampiran: lampiran
+            },
+            success: function(response) {
+                $('#modal-show-lampiran-logbook').html(response);
+                $('#modal-show-lampiran-logbook').modal('show');
             }
         });
     }
