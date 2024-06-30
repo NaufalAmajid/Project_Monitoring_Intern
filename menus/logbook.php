@@ -159,7 +159,7 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
             cache: false,
             processData: false,
             success: function(response) {
-                // console.log(response);
+                console.log(response);
                 let res = JSON.parse(response);
                 swal({
                     title: res.title,
