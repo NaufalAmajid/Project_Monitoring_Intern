@@ -46,6 +46,7 @@ $riwayatLogbook = new RiwayatLogbook();
                                         <th>Hari</th>
                                         <th>Catatan</th>
                                         <th>Lampiran</th>
+                                        <th>Catatan Logbook</th>
                                         <th>Verifikasi</th>
                                     </tr>
                                 </thead>
@@ -69,6 +70,9 @@ $riwayatLogbook = new RiwayatLogbook();
                                                 $lampiran = implode('#', $lampirans);
                                                 ?>
                                                 <button type="button" class="btn btn-icon btn-rounded btn-outline-secondary" onclick="showModalLampiran('<?= $lampiran ?>')"><i class="feather icon-camera"></i></button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-icon btn-rounded btn-outline-info" onclick="showModalKomentar('<?= $today['logbook_id'] ?>')"><i class="feather icon-edit"></i></button>
                                             </td>
                                             <td>
                                                 <div class="form-check form-switch custom-switch-v1 mb-2">
@@ -303,6 +307,21 @@ $riwayatLogbook = new RiwayatLogbook();
             type: 'post',
             data: {
                 lampiran: lampiran
+            },
+            success: function(response) {
+                $('#modal-show-lampiran-logbook').html(response);
+                $('#modal-show-lampiran-logbook').modal('show');
+            }
+        });
+    }
+
+    function showModalKomentar(logbook_id) {
+        $.ajax({
+            url: 'content/modal-show-komentar-logbook.php',
+            type: 'post',
+            data: {
+                logbook_id: logbook_id,
+                action: 'showKomentar'
             },
             success: function(response) {
                 $('#modal-show-lampiran-logbook').html(response);

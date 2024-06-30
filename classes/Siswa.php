@@ -86,6 +86,7 @@ class Siswa
                     ds.jenis_kelamin,
                     ds.tempat_pkl,
                     ds.pimpinan_pkl,
+                    ds.komentar,
                     kel.nama_kelas,
                     kel.kelas_id,
                     jur.nama_jurusan,
@@ -213,6 +214,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo 'success';
         } else {
             echo 'failed';
+        }
+    }
+
+    if ($_POST['action'] == 'saveKomentar') {
+        $data = [
+            'komentar' => $_POST['komentar']
+        ];
+        $where = [
+            'siswa_id' => $_POST['siswa_id']
+        ];
+        $result = $siswa->editSiswa('detail_siswa', $data, $where);
+        if ($result > 0) {
+            echo json_encode([
+                'title' => 'Berhasil',
+                'message' => 'Komentar berhasil disimpan',
+                'status' => 'success'
+            ]);
+        } else {
+            echo json_encode([
+                'title' => 'Gagal',
+                'message' => 'Komentar gagal disimpan',
+                'status' => 'error'
+            ]);
         }
     }
 }

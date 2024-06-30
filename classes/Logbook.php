@@ -195,4 +195,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Terjadi kesalahan saat menghapus lampiran!', 'icon' => 'assets/images/notification/high_priority-48.png']);
         }
     }
+
+    if ($_POST['action'] == 'saveKomentar') {
+        $data = [
+            'komentar' => $_POST['komentar']
+        ];
+        $where = ['logbook_id' => $_POST['logbook_id']];
+        $save = $logbook->editLogbook($data, $where);
+        if ($save) {
+            echo json_encode(['status' => 'success', 'title' => 'Berhasil!', 'message' => 'Komentar berhasil disimpan!']);
+        } else {
+            echo json_encode(['status' => 'error', 'title' => 'Gagal!', 'message' => 'Terjadi kesalahan saat menyimpan komentar!']);
+        }
+    }
 }

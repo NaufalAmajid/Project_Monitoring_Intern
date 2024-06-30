@@ -45,6 +45,7 @@ $no = 1;
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
                             <th>Laporan PKL</th>
+                            <th>Catatan Laporan</th>
                             <th>Verifikasi Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>
@@ -82,6 +83,7 @@ $no = 1;
                                         <a href="lampiran/laporan/<?= $siswa['laporan'] ?>" target="_blank" class="badge badge-light-success"><?= $siswa['laporan'] ?></a>
                                     <?php endif; ?>
                                 </td>
+                                <td><a href="javascript:void(0)" onclick="showModalKomentar('<?= $siswa['siswa_id'] ?>')"><span class="badge badge-light-warning">+ catatan</span></a></td>
                                 <td>
                                     <?php if (is_null($siswa['laporan'])) : ?>
                                         <span class="badge badge-light-warning">Tunda Verifikasi</span>
@@ -119,6 +121,7 @@ $no = 1;
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
                             <th>Laporan PKL</th>
+                            <th>Catatan Laporan</th>
                             <th>Verifikasi Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>
@@ -128,6 +131,7 @@ $no = 1;
         </div>
     </div>
 </div>
+<div id="modal-show-laporan" class="modal fade modal-lg"></div>
 <script>
     $(document).ready(function() {
         $('#table-daftar-siswa').DataTable({
@@ -279,6 +283,21 @@ $no = 1;
                 });
             } else {
                 location.reload();
+            }
+        });
+    }
+
+    function showModalKomentar(siswa_id) {
+        $.ajax({
+            url: 'content/modal-show-komentar-laporan.php',
+            type: 'POST',
+            data: {
+                siswa_id: siswa_id,
+                action: 'getKomentar'
+            },
+            success: function(data) {
+                $('#modal-show-laporan').html(data);
+                $('#modal-show-laporan').modal('show');
             }
         });
     }

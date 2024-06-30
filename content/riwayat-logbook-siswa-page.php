@@ -30,6 +30,13 @@ $func = new Functions();
                                 <span class="badge badge-light-secondary">Belum Diverifikasi</span>
                             <?php endif; ?>
                         </div>
+                        <div class="komentar-logbook">
+                            <?php if (!is_null($log['komentar'])) : ?>
+                                <span class="badge badge-light-danger">Terdapat Catatan Dari Pembimbing</span>
+                            <?php else : ?>
+                                <span class="badge badge-light-success"><i class="feather icon-check"></i></span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
                 <div id="collapse_<?= $log['logbook_id']; ?>" class="card-body collapse" aria-labelledby="heading_<?= $log['logbook_id']; ?>" data-bs-parent="#accordionExample">
@@ -51,6 +58,14 @@ $func = new Functions();
                                 <?php endforeach; ?>
                             </div>
                         </div>
+                    </div>
+                    <div class="row mb-3">
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Catatan Pembimbing</legend>
+                            <div class="row">
+                                <p><?= $log['komentar'] ?></p>
+                            </div>
+                        </fieldset>
                     </div>
                 </div>
             </div>

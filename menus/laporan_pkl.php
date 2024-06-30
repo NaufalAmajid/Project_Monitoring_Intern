@@ -48,7 +48,7 @@ $dataSiswa = $laporanPKL->getSiswaById($_SESSION['the_id']);
                                     <a href="lampiran/laporan/<?= $dataSiswa['laporan'] ?>" target="_blank"><i class="feather icon-link"></i> Lihat Laporan</a>
                                 </div>
                                 <div class="form-group">
-                                    <div class="row">
+                                    <div class="row mb-3">
                                         <div class="col-md-6">
                                             <?php if ($dataSiswa['verif_laporan'] == 1) : ?>
                                                 <span class="badge badge-light-success">Terverifikasi</span>
@@ -57,6 +57,16 @@ $dataSiswa = $laporanPKL->getSiswaById($_SESSION['the_id']);
                                             <?php endif; ?>
                                         </div>
                                         <div class="col-md-6">Nilai Anda &nbsp; <span class="text-success"><?= $dataSiswa['nilai'] ?></span></div>
+                                    </div>
+                                    <div class="row">
+                                        <?php if ($dataSiswa['verif_laporan'] != 1) : ?>
+                                            <fieldset class="scheduler-border">
+                                                <legend class="scheduler-border">Catatan Pembimbing</legend>
+                                                <div class="row">
+                                                    <p><?= $dataSiswa['komentar'] ?></p>
+                                                </div>
+                                            </fieldset>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <button class="btn btn-info col-md-12" id="btn-upload-laporan" type="button" onclick="uploadUlang('<?= $dataSiswa['laporan'] ?>', '<?= $_SESSION['the_id'] ?>')">Upload Ulang</button>

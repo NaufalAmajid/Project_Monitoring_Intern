@@ -67,6 +67,14 @@ $logbook = $logbook->getLogbookTodayBySiswaId($_SESSION['the_id']);
                         </div>
                     </div>
                     <div class="row mb-4">
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Catatan Pembimbing</legend>
+                            <div class="row">
+                                <p><?= $logbook['komentar'] ?></p>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="row mb-4">
                         <div class="col-sm-12">
                             <button class="btn btn-secondary col-md-12" id="btn-logbook" onclick="logBook('edit', '<?= $logbook['logbook_id'] ?>')">Update</button>
                         </div>
