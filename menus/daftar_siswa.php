@@ -45,7 +45,7 @@ $no = 1;
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
                             <th>Laporan PKL</th>
-                            <th>Catatan Laporan</th>
+                            <th>Revisi Laporan</th>
                             <th>Verifikasi Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>
@@ -83,7 +83,13 @@ $no = 1;
                                         <a href="lampiran/laporan/<?= $siswa['laporan'] ?>" target="_blank" class="badge badge-light-success"><?= $siswa['laporan'] ?></a>
                                     <?php endif; ?>
                                 </td>
-                                <td><a href="javascript:void(0)" onclick="showModalKomentar('<?= $siswa['siswa_id'] ?>')"><span class="badge badge-light-warning">+ catatan</span></a></td>
+                                <td>
+                                    <?php if ($siswa['verif_laporan'] == 1) : ?>
+                                        <span class="badge badge-light-success"><i class="feather icon-check-circle"></i></span>
+                                    <?php else : ?>
+                                        <a href="javascript:void(0)" onclick="showModalKomentar('<?= $siswa['siswa_id'] ?>')"><span class="badge badge-light-warning">+ catatan</span></a>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <?php if (is_null($siswa['laporan'])) : ?>
                                         <span class="badge badge-light-warning">Tunda Verifikasi</span>
@@ -121,7 +127,7 @@ $no = 1;
                             <th>Logbook <br> Terverifikasi</th>
                             <th>Logbook <br> Belum Diverifikasi</th>
                             <th>Laporan PKL</th>
-                            <th>Catatan Laporan</th>
+                            <th>Revisi Laporan</th>
                             <th>Verifikasi Laporan PKL</th>
                             <th>Nilai</th>
                         </tr>

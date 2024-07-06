@@ -58,18 +58,29 @@ $dataSiswa = $laporanPKL->getSiswaById($_SESSION['the_id']);
                                         </div>
                                         <div class="col-md-6">Nilai Anda &nbsp; <span class="text-success"><?= $dataSiswa['nilai'] ?></span></div>
                                     </div>
-                                    <div class="row">
-                                        <?php if ($dataSiswa['verif_laporan'] != 1) : ?>
+                                    <?php if ($dataSiswa['verif_laporan'] != 1) : ?>
+                                        <div class="row mb-2">
+                                            <center>
+                                                <span>--- Catatan dan Revisi Dari Pembimbing ---</span>
+                                            </center>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <center>
+                                                <a href="lampiran/revisian/<?= $dataSiswa['revisi_laporan'] ?>" target="_blank"><?= $dataSiswa['revisi_laporan'] ?></a>
+                                            </center>
+                                        </div>
+                                        <div class="row">
                                             <fieldset class="scheduler-border">
-                                                <legend class="scheduler-border">Catatan Pembimbing</legend>
                                                 <div class="row">
                                                     <p><?= $dataSiswa['komentar'] ?></p>
                                                 </div>
                                             </fieldset>
-                                        <?php endif; ?>
-                                    </div>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
-                                <button class="btn btn-info col-md-12" id="btn-upload-laporan" type="button" onclick="uploadUlang('<?= $dataSiswa['laporan'] ?>', '<?= $_SESSION['the_id'] ?>')">Upload Ulang</button>
+                                <?php if ($dataSiswa['verif_laporan'] != 1) : ?>
+                                    <button class="btn btn-info col-md-12" id="btn-upload-laporan" type="button" onclick="uploadUlang('<?= $dataSiswa['laporan'] ?>', '<?= $_SESSION['the_id'] ?>')">Upload Ulang</button>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>

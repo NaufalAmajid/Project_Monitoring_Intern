@@ -350,6 +350,14 @@ $func = new Functions();
         }, function(start, end, label) {
             $('#search-riwlogbook-all-siswa .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
         });
+        
+        $('#search-date-rekap').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        }, function(start, end, label) {
+            $('#search-date-rekap .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
+        });
 
 
         function Logout(changePassword = false) {

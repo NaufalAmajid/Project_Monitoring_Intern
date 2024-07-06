@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: my_db
--- Waktu pembuatan: 30 Jun 2024 pada 07.42
--- Versi server: 11.4.2-MariaDB-ubu2404
--- Versi PHP: 8.2.8
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 06 Jul 2024 pada 08.56
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,7 +36,7 @@ CREATE TABLE `absensi` (
   `is_verified` tinyint(1) NOT NULL DEFAULT 0,
   `siswa_id` int(11) NOT NULL,
   `lampiran_keluar` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `absensi`
@@ -57,7 +57,7 @@ CREATE TABLE `detail_pembimbing` (
   `nama_lengkap` varchar(100) NOT NULL,
   `jenis_kelamin` enum('Laki-laki','Perempuan') NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `detail_pembimbing`
@@ -86,16 +86,17 @@ CREATE TABLE `detail_siswa` (
   `selesai_pkl` int(11) NOT NULL DEFAULT 0,
   `laporan` text DEFAULT NULL,
   `komentar` text DEFAULT NULL,
+  `revisi_laporan` text DEFAULT NULL,
   `verif_laporan` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `detail_siswa`
 --
 
-INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`, `pimpinan_pkl`, `nilai`, `selesai_pkl`, `laporan`, `komentar`, `verif_laporan`) VALUES
-(1, 'Kirigaya Kazuto', '08734213123', '00043523434', 'Laki-laki', 3, 1, 'Gayam', 'Adi Saputra', 79, 1, NULL, 'Untuk membuat elemen legend dengan Bootstrap 4, Anda bisa menggunakan kelas-kelas yang disediakan oleh Bootstrap untuk mengatur tampilan elemen tersebut. Berikut adalah langkah-langkah dan contoh kode untuk membuat elemen legend yang terintegrasi dengan baik ', 0),
-(2, 'obito uchiha', '0823134234', '00043523434', 'Laki-laki', 4, 1, 'Boyolali', 'Madara', 0, 0, NULL, NULL, 0);
+INSERT INTO `detail_siswa` (`siswa_id`, `nama_lengkap`, `no`, `nis`, `jenis_kelamin`, `user_id`, `kelas_id`, `tempat_pkl`, `pimpinan_pkl`, `nilai`, `selesai_pkl`, `laporan`, `komentar`, `revisi_laporan`, `verif_laporan`) VALUES
+(1, 'Kirigaya Kazuto', '08734213123', '00043523434', 'Laki-laki', 3, 1, 'Gayam', 'Adi Saputra', 79, 1, 'Laporan PKL_Kirigaya Kazuto(00043523434).pdf', 'Untuk membuat elemen legend dengan Bootstrap 4, Anda bisa menggunakan kelas-kelas yang disediakan oleh Bootstrap untuk mengatur tampilan elemen tersebut. Berikut adalah langkah-langkah dan contoh kode untuk membuat elemen legend yang terintegrasi dengan baik 123', 'Revisi Laporan PKL_Kirigaya Kazuto(00043523434).pdf', 1),
+(2, 'obito uchiha', '0823134234', '00043523434', 'Laki-laki', 4, 1, 'Boyolali', 'Madara', 0, 0, NULL, '', 'Revisi Laporan PKL_obito uchiha(00043523434).pdf', 0);
 
 -- --------------------------------------------------------
 
@@ -107,7 +108,7 @@ CREATE TABLE `hak_akses_menu` (
   `id` int(11) NOT NULL,
   `menu_id` varchar(10) NOT NULL,
   `status_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `hak_akses_menu`
@@ -122,7 +123,8 @@ INSERT INTO `hak_akses_menu` (`id`, `menu_id`, `status_user_id`) VALUES
 (7, 'ME05', 3),
 (8, 'ME06', 3),
 (9, 'ME03', 3),
-(10, 'ME08', 3);
+(10, 'ME08', 3),
+(11, 'ME09', 1);
 
 -- --------------------------------------------------------
 
@@ -134,7 +136,7 @@ CREATE TABLE `jurusan` (
   `jurusan_id` int(11) NOT NULL,
   `nama_jurusan` varchar(50) NOT NULL,
   `is_active` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `jurusan`
@@ -155,7 +157,7 @@ CREATE TABLE `kelas` (
   `jurusan_id` int(11) NOT NULL,
   `pembimbing_id` int(11) NOT NULL,
   `is_active` int(11) DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `kelas`
@@ -178,7 +180,7 @@ CREATE TABLE `logbook` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `is_verified` tinyint(1) DEFAULT NULL,
   `siswa_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `logbook`
@@ -199,7 +201,7 @@ CREATE TABLE `menu` (
   `menu_id` varchar(10) NOT NULL,
   `nama_menu` varchar(20) NOT NULL,
   `direktori` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `menu`
@@ -212,7 +214,8 @@ INSERT INTO `menu` (`menu_id`, `nama_menu`, `direktori`) VALUES
 ('ME05', 'absensi', 'absensi'),
 ('ME06', 'logbook', 'logbook'),
 ('ME07', 'daftar siswa', 'daftar_siswa'),
-('ME08', 'laporan pkl', 'laporan_pkl');
+('ME08', 'laporan pkl', 'laporan_pkl'),
+('ME09', 'rekap sistem', 'rekap_sistem');
 
 -- --------------------------------------------------------
 
@@ -223,7 +226,7 @@ INSERT INTO `menu` (`menu_id`, `nama_menu`, `direktori`) VALUES
 CREATE TABLE `status_user` (
   `status_user_id` int(11) NOT NULL,
   `nama_status_user` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `status_user`
@@ -245,7 +248,7 @@ CREATE TABLE `submenu` (
   `nama_submenu` varchar(20) NOT NULL,
   `direktori` varchar(50) NOT NULL,
   `menu_id` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `submenu`
@@ -271,7 +274,7 @@ CREATE TABLE `user` (
   `status_user_id` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `is_active` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `user`
@@ -389,7 +392,7 @@ ALTER TABLE `detail_siswa`
 -- AUTO_INCREMENT untuk tabel `hak_akses_menu`
 --
 ALTER TABLE `hak_akses_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan`

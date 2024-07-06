@@ -87,6 +87,7 @@ class Siswa
                     ds.tempat_pkl,
                     ds.pimpinan_pkl,
                     ds.komentar,
+                    ds.revisi_laporan,
                     kel.nama_kelas,
                     kel.kelas_id,
                     jur.nama_jurusan,
@@ -218,23 +219,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($_POST['action'] == 'saveKomentar') {
+
+        $detailSiswa = $siswa->getSiswaById($_POST['siswa_id']);
+        if (isset($_FILES['file_revisi'])) {
+
+            $file_revisi = $_FILES['file_revisi'];
+            $tmp_file_revisi = $file_revisi['tmp_name'];
+            $name_file_revisi = $file_revisi['name'];
+            $size_file_revisi = $file_revisi['size'];
+            $error_file_revisi = $file_revisi['error'];
+
+            $file_revisi_ext           = explode('.', $name_file_revisi);
+            $file_revisi_actual_ext    = strtolower(end($file_revisi_ext));
+
+            if ($error_file_revisi == 0) {
+                $newName_file_revisi = 'Revisi Laporan PKL_' . $detailSiswa['nama_siswa'] . '(' . $detailSiswa['nis'] . ').' . $file_revisi_actual_ext;
+                $file_revisi_destination = '../lampiran/revisian/' . $newName_file_revisi;
+            } else {
+                echo json_encode([
+                    'title' => 'Perhatian!',
+                    'status' => 'warning',
+                    'msg' => 'File Sepertinya Corrupt, Cek File Anda!',
+                ]);
+                exit;
+            }
+        } else {
+            $newName_file_revisi = NULL;
+        }
+
         $data = [
             'komentar' => $_POST['komentar']
         ];
+        if (!is_null($newName_file_revisi)) {
+            $data['revisi_laporan'] = $newName_file_revisi;
+        }
         $where = [
             'siswa_id' => $_POST['siswa_id']
         ];
         $result = $siswa->editSiswa('detail_siswa', $data, $where);
-        if ($result > 0) {
+        if ($result >= 0) {
+            if (!is_null($newName_file_revisi)) {
+                move_uploaded_file($tmp_file_revisi, $file_revisi_destination);
+            }
             echo json_encode([
                 'title' => 'Berhasil',
-                'message' => 'Komentar berhasil disimpan',
+                'message' => 'Komentar dan revisi laporan berhasil disimpan',
                 'status' => 'success'
             ]);
         } else {
             echo json_encode([
                 'title' => 'Gagal',
-                'message' => 'Komentar gagal disimpan',
+                'message' => 'Komentar dan revisi laporan gagal disimpan',
                 'status' => 'error'
             ]);
         }
