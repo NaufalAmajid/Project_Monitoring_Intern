@@ -16,7 +16,13 @@
 </div>
 <!-- [ breadcrumb ] end -->
 <?php
-require_once 'classes/Pembimbing.php';
+require_once 'classes/Rekap.php';
+$rekap = new Rekap();
+$rekaps = $rekap->getRekap();
+$no = 1;
+echo '<pre>';
+print_r($rekaps);
+echo '</pre>';
 ?>
 <div class="col-sm-12">
     <div class="card">
@@ -28,7 +34,7 @@ require_once 'classes/Pembimbing.php';
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class='input-group' id='search-date-rekap'>
                                 <input type='text' class="form-control" placeholder="Pilih Tanggal" />
-                                <button class="btn btn-primary btn-sm" type="button"><i class="feather icon-search fs-4 ms-2"></i></button>
+                                <button class="btn btn-primary btn-sm" type="button" onclick="searchRekap()"><i class="feather icon-search fs-4 ms-2"></i></button>
                             </div>
                         </div>
                     </div>
@@ -41,17 +47,40 @@ require_once 'classes/Pembimbing.php';
                     <thead>
                         <tr>
                             <th rowspan="2">No</th>
+                            <th rowspan="2">Jurusan</th>
+                            <th rowspan="2">Kelas</th>
+                            <th rowspan="2">Nama Pembimbing</th>
                             <th colspan="2">Logbook</th>
                             <th colspan="2">Absensi</th>
-                            <th rowspan="2">Laporan</th>
+                            <th colspan="2">Laporan</th>
+                            <th rowspan="2">Jumlah Siswa</th>
                         </tr>
                         <tr>
-                            <th>Belum Diverifikasi</th>
-                            <th>Terverifikasi</th>
-                            <th>Belum Diverifikasi</th>
-                            <th>Terverifikasi</th>
+                            <th>Logbook Belum Diverifikasi</th>
+                            <th>Logbook Terverifikasi</th>
+                            <th>Absensi Belum Diverifikasi</th>
+                            <th>Absensi Terverifikasi</th>
+                            <th>Laporan Belum Diverifikasi</th>
+                            <th>Laporan Terverifikasi</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php foreach($rekaps as $rek) : ?>
+                            <tr>
+                                <td><?= $no++ ?>.</td>
+                                <td><?= $rek['nama_jurusan'] ?></td>
+                                <td><?= $rek['nama_kelas'] ?></td>
+                                <td><?= $rek['nama_pembimbing'] ?></td>
+                                <td><?= $rek['jumlah_logbook_unverif'] ?></td>
+                                <td><?= $rek['jumlah_logbook_verif'] ?></td>
+                                <td><?= $rek['jumlah_absensi_unverif'] ?></td>
+                                <td><?= $rek['jumlah_absensi_verif'] ?></td>
+                                <td><?= $rek['jumlah_laporan_unverif'] ?></td>
+                                <td><?= $rek['jumlah_laporan_verif'] ?></td>
+                                <td><?= $rek['jumlah_siswa'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -64,17 +93,17 @@ require_once 'classes/Pembimbing.php';
             buttons: [{
                     extend: 'excel',
                     text: 'Excel',
-                    title: 'Data Pembimbing',
+                    title: 'Data Rekap Monitoring PKL',
                 },
                 {
                     extend: 'pdf',
                     text: 'PDF',
-                    title: 'Data Pembimbing',
+                    title: 'Data Rekap Monitoring PKL',
                 },
                 {
                     extend: 'print',
                     text: 'Print',
-                    title: 'Data Pembimbing',
+                    title: 'Data Rekap Monitoring PKL',
                 }
             ]
         });

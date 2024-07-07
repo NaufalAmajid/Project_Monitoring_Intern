@@ -76,7 +76,7 @@ class RiwayatLogbook
                 where
                     kel.pembimbing_id = $pembimbing_id
                     and cast(log.created_at as date) between '$tgl1' and '$tgl2'
-                    and log.is_verified = 0
+                    and (log.is_verified = 0 or log.is_verified is null)
                 order by log.created_at asc";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

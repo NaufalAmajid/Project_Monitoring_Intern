@@ -28,7 +28,7 @@ class DaftarSiswa
 					count(case when abs.is_verified = 1 then abs.absensi_id end) as jumlah_absensi_verified,
 					count(case when abs.is_verified = 0 then abs.absensi_id end) as jumlah_absensi_unverified,
 					count(case when log.is_verified = 1 then log.logbook_id end) as jumlah_logbook_verified,
-					count(case when log.is_verified = 0 then log.logbook_id end) as jumlah_logbook_unverified
+					count(case when log.is_verified = 0 or log.is_verified is null then log.logbook_id end) as jumlah_logbook_unverified
 				from
 					detail_siswa ds
 				left join kelas kel on
