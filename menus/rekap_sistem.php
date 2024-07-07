@@ -25,18 +25,6 @@ $no = 1;
     <div class="card">
         <div class="card-header table-card-header">
             <h5>List Rekap Aktifitas Sistem</h5>
-            <div class="card-header-right">
-                <form id="form-search-rekam">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class='input-group' id='search-date-rekap'>
-                                <input type='text' class="form-control" placeholder="Pilih Tanggal" />
-                                <button class="btn btn-primary btn-sm" type="button" onclick="searchRekap()"><i class="feather icon-search fs-4 ms-2"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
         <div class="card-body">
             <div class="dt-responsive table-responsive">
