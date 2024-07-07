@@ -20,9 +20,6 @@ require_once 'classes/Rekap.php';
 $rekap = new Rekap();
 $rekaps = $rekap->getRekap();
 $no = 1;
-echo '<pre>';
-print_r($rekaps);
-echo '</pre>';
 ?>
 <div class="col-sm-12">
     <div class="card">
